@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/artist/red-hot-chili-peppers', function () {
+    return view('pages.artists.detail', [
+        'artist' => [
+            'name' => 'Red Hot Chili Peppers'
+        ]
+    ]);
+});
+
+Route::get('/artists', 'ArtistController@index');
