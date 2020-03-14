@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'artist4artist'),
 
+    'description' => env('APP_DESCRIPTION', 'Colaboration Platform to support independent artist during this COVID-19 outbreak'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

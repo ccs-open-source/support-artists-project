@@ -17,5 +17,8 @@ class HomePageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee(config('app.name'));
+        $response->assertSee(config('app.description'));
+        $response->assertSee('/register/facebook');
+        $response->assertSee('/register/twitter');
     }
 }
