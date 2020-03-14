@@ -19,14 +19,22 @@ class SocialLoginController extends Controller
     {
         $user = Socialite::driver($provider)->user();
 
-        $artist = new Artist;
+        $artist = Artist::where('email', $user->getEmail())->first();
+
+        if (!empty($artist) && $artist->isActive == 1) {
+            return redirect()->route('home');
+        } else if(empty($artist)) {
+            $artist = new Artist;
+        }
+
         $artist->name = $user->getName();
         $artist->email = $user->getEmail();
         $artist->avatar = $user->getAvatar();
         $artist->facebookId = $user->getId(); // @todo
+        $artist->isActive = 0;
         $artist->save();
 
         session()->put('artist', $artist);
-        return redirect()->route('home');
+        return redirect()->route('home.complete-registration');
     }
 }
