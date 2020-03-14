@@ -20,13 +20,15 @@ class ShowStreamArtistTest extends TestCase
      */
     public function can_go_to_artist_page()
     {
+        $artist = create(Artist::class, ['name' => 'Red Hot Chili Peppers']);
+
         $this->withoutExceptionHandling();
 
-        $response = $this->get('/artist/red-hot-chili-peppers');
+        $response = $this->get('/artist/' . $artist->slug);
 
         $response->assertStatus(200);
         $response->assertViewHas('artist');
-        $response->assertSee('Red Hot Chili Peppers');
+        $response->assertSee($artist->name);
     }
 
     /**
