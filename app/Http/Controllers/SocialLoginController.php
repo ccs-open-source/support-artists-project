@@ -23,6 +23,7 @@ class SocialLoginController extends Controller
         $artist->name = $user->getName();
         $artist->email = $user->getEmail();
         $artist->avatar = $user->getAvatar();
+        $artist->facebookId = $user->getId(); // @todo
         $artist->save();
 
         session()->put('artist', $artist);

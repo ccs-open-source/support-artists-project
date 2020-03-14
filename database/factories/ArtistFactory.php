@@ -9,6 +9,7 @@ $factory->define(Artist::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'avatar' => $faker->imageUrl()
+        'avatar' => $faker->imageUrl(),
+        'facebookId' => $faker->numberBetween(0, 1000)
     ];
 });

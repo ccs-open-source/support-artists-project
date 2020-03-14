@@ -47,7 +47,7 @@ class LoginSocialiteTest extends TestCase
 
         $abstractUser
             ->shouldReceive('getId')
-            ->andReturn(rand())
+            ->andReturn($artist->facebookId)
             ->shouldReceive('getName')
             ->andReturn($artist->name)
             ->shouldReceive('getEmail')
@@ -66,8 +66,10 @@ class LoginSocialiteTest extends TestCase
         $this->assertNotEmpty($saved->name);
         $this->assertNotEmpty($saved->email);
         $this->assertNotEmpty($saved->avatar);
+        $this->assertNotEmpty($saved->facebookId);
         $this->assertEquals($artist->name, $saved->name);
         $this->assertEquals($artist->email, $saved->email);
         $this->assertEquals($artist->avatar, $saved->avatar);
+        $this->assertEquals($artist->facebookId, $saved->facebookId);
     }
 }

@@ -18,6 +18,7 @@ class CreateArtistTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('avatar')->nullable();
+            $table->string('facebookId')->nullable();
             $table->timestamps();
         });
     }
