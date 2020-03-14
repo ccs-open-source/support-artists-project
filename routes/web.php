@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/artist/red-hot-chili-peppers', function () {
     return view('pages.artists.detail', [
@@ -24,3 +24,5 @@ Route::get('/artist/red-hot-chili-peppers', function () {
 });
 
 Route::get('/artists', 'ArtistController@index');
+Route::get('/register/{provider}', ['as' => 'register', 'uses' => 'SocialLoginController@redirectToProvider']);
+Route::get('/register/{provider}/callback', 'SocialLoginController@handleProviderCallback');

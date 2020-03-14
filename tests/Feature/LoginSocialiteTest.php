@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Mockery;
 use App\Models\Artist;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\FacebookProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,9 +23,15 @@ class LoginSocialiteTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        $providerMock = \Mockery::mock('Laravel\Socialite\Contracts\Provider');
+
+        $providerMock->shouldReceive('redirect')->andReturn(new RedirectResponse('/teste'));
+
+        Socialite::shouldReceive('driver')->with('facebook')->andReturn($providerMock);
+
         $response = $this->get('/register/facebook');
 
-        $response->assertRedirect();
+        $response->assertRedirect('/teste');
     }
 
 
