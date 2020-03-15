@@ -39,7 +39,7 @@ class HomePageTest extends TestCase
             'artist_id' => create(Artist::class, [
                 'name' => 'Artist Name',
                 'realName' => 'Jonathan Fontes',
-                'isVerified' => 1
+                "isVerified" => 1
             ])->id,
             'isLive' => 1
         ]);
@@ -57,9 +57,8 @@ class HomePageTest extends TestCase
         $response->assertSee($stream->postTimeAgo);
         $this->assertNotEmpty($stream->artist->name, "Unable to get Artist Name");
         $response->assertSee($stream->artist->name);
-        if ($stream->artist->isVerified) {
-            $response->assertSee('fas fa-check-circle', 'Artist is Verified but don\'t exists badge on response');
-        }
+        $response->assertSee('fas fa-check-circle', 'Artist is Verified but don\'t exists badge on response');
+
         $response->assertSee('/stream/' . $stream->slug);
     }
 
@@ -78,6 +77,26 @@ class HomePageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertDontSee($stream->title);
+    }
+
+    /**
+     * @test
+     */
+    public function if_artist_isnt_verified_dont_show_badge()
+    {
+        $this->withoutExceptionHandling();
+
+        $stream = create(Stream::class, [
+            'artist_id' => create(Artist::class, [
+                'isVerified' => 0
+            ])
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee($stream->title);
+        $response->assertDontSee('fas fa-check-circle', 'Artist is not Verified but it exists badge on response');
     }
 
     /**

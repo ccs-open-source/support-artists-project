@@ -13,9 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/register', 'HomeController@register')->name('home.register');
-Route::get('/complete-registration', ['as' => 'home.complete-registration', 'uses' => 'HomeController@completeRegistration']);
+// Register Callbacks
+Route::get('/register/{provider}', ['as' => 'register', 'uses' => 'SocialLoginController@redirectToProvider']);
+Route::get('/register/{provider}/callback', 'SocialLoginController@handleProviderCallback');
+
+// Home Controllers
+Route::group(['prefix' => '/', 'as' => 'home.'], function () {
+    Route::get('/', 'HomeController@index')->name('index');
+    Route::get('/register', 'HomeController@register')->name('register');
+    Route::get('/complete-registration', ['as' => 'complete-registration', 'uses' => 'HomeController@completeRegistration']);
+    Route::post('/complete-registration', ['as' => 'complete-registration', 'uses' => 'HomeController@finishedRegistration']);
+
+    Route::get('js/lang.js', 'AssetsController@lang')->name('assets.lang');
+    Route::get('js/lang.{file}.js', 'AssetsController@langByFile')->name('assets.lang.file');
+    Route::get('version.txt', 'AssetsController@getVersion')->name('assets.version');
+});
 
 Route::get('/stream/{stream}', ['as' => 'stream.detail', 'uses' => 'StreamDetailController@index']);
 
@@ -28,6 +40,4 @@ Route::get('/artist/red-hot-chili-peppers', function () {
 });
 
 Route::get('/artists', 'ArtistController@index');
-Route::get('/register/{provider}', ['as' => 'register', 'uses' => 'SocialLoginController@redirectToProvider']);
-Route::get('/register/{provider}/callback', 'SocialLoginController@handleProviderCallback');
 

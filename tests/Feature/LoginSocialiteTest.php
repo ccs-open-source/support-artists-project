@@ -131,12 +131,29 @@ class LoginSocialiteTest extends TestCase
 
         $artist = create(Artist::class, ['isRegistrationComplete' => 0]);
 
-        $response = $this->withSession(['artist' => $artist])->get('/complete-registration');
+        $response = $this->withSession(['artist' => $artist])->post('/complete-registration', [
+            'realName' => 'Jonathan Fontes',
+            'address' => 'Rua Jacinto',
+            'city' => 'Espinho',
+            'postalCode' => '4500-001',
+            'vat' => '243091834',
+            'countryCode' => 'PT',
+            'iban' => 'PT500007000010000100001',
+            'activityProof' => 'https://www.facebook.com/activity-proof',
+            'wantDonation' => 1
+        ]);
 
-        $response->assertStatus(200);
-        $response->assertSee(route('home.complete-registration'));
-        $response->assertViewHas('record');
-        $response->assertSee($artist->realName);
-        $response->assertSee($artist->email);
+        $response->assertRedirect('/');
+        $this->assertDatabaseHas('artists', [
+            'realName' => 'Jonathan Fontes',
+            'isRegistrationComplete' => 1,
+            'address' => 'Rua Jacinto',
+            'city' => 'Espinho',
+            'postalCode' => '4500-001',
+            'vat' => '243091834',
+            'iban' => 'PT500007000010000100001',
+            'activityProof' => 'https://www.facebook.com/activity-proof',
+            'wantDonation' => 1
+        ]);
     }
 }

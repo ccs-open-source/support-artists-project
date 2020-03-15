@@ -13,7 +13,7 @@ class HomeController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    function index(Request $request)
+    public function index(Request $request)
     {
         $streams = Stream::whereNull('cancel_at')
             ->orderBy('created_at', 'desc')
@@ -30,17 +30,17 @@ class HomeController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    function completeRegistration(Request $request)
+    public function completeRegistration(Request $request)
     {
         if(!session()->has('artist')) {
-            return redirect()->route('home')->withErrors([
+            return redirect()->route('home.index')->withErrors([
                 'artist' => 'You must first try to register'
             ]);
         }
 
         $artist = session()->get('artist');
         if (!empty($artist->isRegistrationComplete)) {
-            return redirect()->route('home')->withErrors([
+            return redirect()->route('home.index')->withErrors([
                 'artist' => 'You account is already active'
             ]);
         }
@@ -49,4 +49,33 @@ class HomeController extends Controller
             'record' => $artist
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function finishedRegistration(Request $request)
+    {
+        $data = $request->except(['_csrf_token']);
+
+        $artist = session()->get('artist');
+
+        $artist->realName = $data['realName'];
+        $artist->isRegistrationComplete = 1;
+        $artist->address = $data['address'] ?? '';
+        $artist->city = $data['city'] ?? '';
+        $artist->countryCode = $data['countryCode'] ?? '';
+        $artist->postalCode = $data['postalCode'] ?? '';
+        $artist->vat = $data['vat'] ?? '';
+        $artist->iban = $data['iban'] ?? '';
+        $artist->activityProof = $data['activityProof'] ?? '';
+        $artist->wantDonation = $data['wantDonation'] ?? 0;
+
+        $artist->save();
+        session()->put('artist', $artist);
+
+        return redirect()->route('home.index');
+    }
+
+
 }
