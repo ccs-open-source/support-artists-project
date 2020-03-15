@@ -24,7 +24,7 @@ class CreateArtistTable extends Migration
             $table->string('city')->nullable();
             $table->string('postalCode')->nullable();
             $table->string('countryCode')->nullable();
-            $table->string('vat')->nullable();
+            $table->string('vat', 9)->nullable();
             $table->string('activityProof')->nullable();
             $table->tinyInteger('isVerified')->default(0);
             $table->tinyInteger('wantDonation')->default(0);
