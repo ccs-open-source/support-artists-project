@@ -15,5 +15,39 @@
         @yield('body')
     </div>
 
+    {{-- Inject all URL param vars into JS as an object literal --}}
+    <script>
+        window.$GET = {!! $queryString !!};
+    </script>
+
+    <!-- dynamic and injected via Laravel -->
+    <script src="{{ mix('/js/manifest.js') }}?v={{ date('ymd') }}"></script>
+    <script src="{{ mix('/js/vendor.js') }}?v={{ date('ymd') }}"></script>
+    <script src="{{ mix('/js/app.js') }}?v={{ date('ymd') }}"></script>
+
+    {{-- Load automatically some javascript environments --}}
+    <script src="{{ route('home.assets.lang') }}?v={{ date('ymd') }}"></script>
+
+    <!-- Interface Controller per View -->
+    <script src="{{ mix('/js/controllers/Main.controller.js') }}?v={{ date('ymd') }}"></script>
+    <script>
+        window.Artist4Artist = window.Artist4Artist ? window.Artist4Artist : {};
+        window.InterfaceController.init();
+    </script>
+
+    @if(file_exists(public_path('/js/controllers/' . ucfirst($view_name) . '.controller.js')))
+        <script src="{{ mix('/js/controllers/' . ucfirst($view_name) . '.controller.js') }}?v={{ date('ymd') }}"></script>
+        <script>
+            $(function () {
+                window.UTP.template = "{{ucfirst($view_name)}}";
+                window.InterfaceController.{{ucfirst($view_name)}}.init();
+            });
+        </script>
+    @else
+        <script>console.warn("File not found: ", '/js/controllers/{{ ucfirst($view_name) }}.controller.js');</script>
+    @endif
+
+    @stack('endscripts')
+
 </body>
 </html>

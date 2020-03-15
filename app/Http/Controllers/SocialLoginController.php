@@ -22,7 +22,7 @@ class SocialLoginController extends Controller
         $artist = Artist::where('email', $user->getEmail())->first();
 
         if (!empty($artist) && $artist->isRegistrationComplete == 1) {
-            return redirect()->route('home');
+            return redirect()->route('home.index');
         } else if(empty($artist)) {
             $artist = new Artist;
         }

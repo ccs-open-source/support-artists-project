@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'complete-registration' => 'Complete Registo',
+    'complete-registration-help' => 'Complete o seu registo para começar a usar a plataforma',
     'real-name' => 'Nome Completo',
     'real-name-help' => 'Nome verdadeiro completo',
     'name' => 'Nome Artistico',
@@ -20,7 +22,7 @@ return [
     'country-code' => 'País',
     'country-code-help' => '',
     'activity-proof' => 'Prova de Actividade',
-    'activity-proof-help' => '',
+    'activity-proof-help' => 'Para poder ser um artista verificado deverá fornecer link para um documento para ser validado.',
     'want-donation' => 'Deseja receber donação?',
-    'want-donation-help' => ''
+    'want-donation-help' => '',
 ];

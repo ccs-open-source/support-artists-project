@@ -11,6 +11,7 @@ $factory->define(Artist::class, function (Faker $faker) {
         'realName' => $faker->name,
         'email' => $faker->email,
         'avatar' => $faker->imageUrl(),
-        'facebookId' => $faker->numberBetween(0, 1000)
+        'facebookId' => $faker->numberBetween(0, 1000),
+        'isVerified' => $faker->boolean(70) ? 1 : 0
     ];
 });

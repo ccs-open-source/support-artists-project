@@ -20,7 +20,9 @@ class CreateStreamTable extends Migration
             $table->tinyInteger('isLive')->default(0);
             $table->string('tags')->nullable();
             $table->integer('clicks')->unsigned()->default(0);
+            $table->dateTime('cancel_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

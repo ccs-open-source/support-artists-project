@@ -27,7 +27,9 @@ class CreateArtistTable extends Migration
             $table->string('vat')->nullable();
             $table->string('iban', 34)->nullable();
             $table->string('activityProof')->nullable();
+            $table->tinyInteger('isVerified')->default(0);
             $table->tinyInteger('wantDonation')->default(0);
+            $table->string('iban')->nullable();
             $table->string('facebook')->nullable();
             $table->string('facebookId')->nullable();
             $table->tinyInteger('isRegistrationComplete')->default(0);

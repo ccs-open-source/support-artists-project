@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const glob = require('glob');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +12,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+let jsFiles = glob.sync('./resources/js/controllers/*.controller.js');
+
+// If each file is its own entry file
+jsFiles.forEach(filename => {
+    mix.js(filename, 'public/js/controllers/');
+});
+
+mix
+    .js('resources/js/app.js', 'public/js').extract()
     .sass('resources/sass/app.scss', 'public/css');
+
+if (mix.inProduction()) {
+    mix.version();
+}
