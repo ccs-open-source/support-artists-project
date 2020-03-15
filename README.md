@@ -1,3 +1,3 @@
-## Artists4Artists Project
+# Artists4Artists Project
 
-# How it works
+## How it works
