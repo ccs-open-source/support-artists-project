@@ -15,7 +15,9 @@ class HomeController extends Controller
      */
     function index(Request $request)
     {
-        $streams = Stream::all();
+        $streams = Stream::whereNull('cancel_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('homepage', [
             'streams' => $streams

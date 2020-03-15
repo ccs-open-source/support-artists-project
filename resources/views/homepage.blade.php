@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <span>{{ $stream->title }}</span>
+                                <span>{{ $stream->title }} <i class="fas fa-check-circle"></i></span>
                                 @if($stream->isLive)
                                     <span class="badge badge-warning">{{ trans('stream.is-live') }}</span>
                                 @endif
