@@ -21,17 +21,17 @@ class SocialLoginController extends Controller
 
         $artist = Artist::where('email', $user->getEmail())->first();
 
-        if (!empty($artist) && $artist->isActive == 1) {
+        if (!empty($artist) && $artist->isRegistrationComplete == 1) {
             return redirect()->route('home');
         } else if(empty($artist)) {
             $artist = new Artist;
         }
 
-        $artist->name = $user->getName();
+        $artist->realName = $user->getName();
         $artist->email = $user->getEmail();
         $artist->avatar = $user->getAvatar();
         $artist->facebookId = $user->getId(); // @todo
-        $artist->isActive = 0;
+        $artist->isRegistrationComplete = 0;
         $artist->save();
 
         session()->put('artist', $artist);

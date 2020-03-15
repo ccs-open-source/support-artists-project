@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/register', 'HomeController@register')->name('home.register');
 Route::get('/complete-registration', ['as' => 'home.complete-registration', 'uses' => 'HomeController@completeRegistration']);
+
+Route::get('/stream/{stream}', ['as' => 'stream.detail', 'uses' => 'StreamDetailController@index']);
 
 Route::get('/artist/red-hot-chili-peppers', function () {
     return view('pages.artists.detail', [

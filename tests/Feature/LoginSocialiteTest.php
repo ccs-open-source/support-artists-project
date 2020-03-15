@@ -43,7 +43,7 @@ class LoginSocialiteTest extends TestCase
             ->shouldReceive('getId')
             ->andReturn($artist->facebookId)
             ->shouldReceive('getName')
-            ->andReturn($artist->name)
+            ->andReturn($artist->realName)
             ->shouldReceive('getEmail')
             ->andReturn($artist->email)
             ->shouldReceive('getAvatar')
@@ -56,12 +56,12 @@ class LoginSocialiteTest extends TestCase
         $saved = Artist::first();
         $response->assertSessionHas('artist');
         $this->assertEquals(1, Artist::all()->count());
-        $this->assertNotEmpty($saved->name);
+        $this->assertNotEmpty($saved->realName);
         $this->assertNotEmpty($saved->email);
         $this->assertNotEmpty($saved->avatar);
         $this->assertNotEmpty($saved->facebookId);
         $this->assertEmpty($saved->isActive);
-        $this->assertEquals($artist->name, $saved->name);
+        $this->assertEquals($artist->realName, $saved->realName);
         $this->assertEquals($artist->email, $saved->email);
         $this->assertEquals($artist->avatar, $saved->avatar);
         $this->assertEquals($artist->facebookId, $saved->facebookId);
@@ -88,7 +88,7 @@ class LoginSocialiteTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $artist = create(Artist::class, ['isActive' => 1]);
+        $artist = create(Artist::class, ['isRegistrationComplete' => 1]);
 
         $response = $this->withSession(['artist' => $artist])->get('/complete-registration');
 
@@ -103,7 +103,7 @@ class LoginSocialiteTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $artist = create(Artist::class, ['isActive' => 1]);
+        $artist = create(Artist::class, ['isRegistrationComplete' => 1]);
         $this->withoutExceptionHandling();
 
         $abstractUser = Mockery::mock(FacebookProvider::class);
@@ -111,15 +111,32 @@ class LoginSocialiteTest extends TestCase
             ->shouldReceive('getId')
             ->andReturn($artist->facebookId)
             ->shouldReceive('getName')
-            ->andReturn($artist->name)
+            ->andReturn($artist->realName)
             ->shouldReceive('getEmail')
             ->andReturn($artist->email)
             ->shouldReceive('getAvatar')
             ->andReturn($artist->avatar);
         Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
 
-        $response = $this->get('/register/facebook/callback')
+        $this->get('/register/facebook/callback')
             ->assertRedirect('/');
+    }
 
+    /**
+     * @test
+     */
+    public function uncomplete_registration_can_complete_registration()
+    {
+        $this->withoutExceptionHandling();
+
+        $artist = create(Artist::class, ['isRegistrationComplete' => 0]);
+
+        $response = $this->withSession(['artist' => $artist])->get('/complete-registration');
+
+        $response->assertStatus(200);
+        $response->assertSee(route('home.complete-registration'));
+        $response->assertViewHas('record');
+        $response->assertSee($artist->realName);
+        $response->assertSee($artist->email);
     }
 }

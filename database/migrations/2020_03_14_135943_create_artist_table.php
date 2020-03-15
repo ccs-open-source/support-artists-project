@@ -15,11 +15,21 @@ class CreateArtistTable extends Migration
     {
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
+            $table->string('realName');
             $table->string('email');
             $table->string('avatar')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('postalCode')->nullable();
+            $table->string('countryCode')->nullable();
+            $table->string('vat')->nullable();
+            $table->string('activityProof')->nullable();
+            $table->tinyInteger('wantDonation')->default(0);
+            $table->string('facebook')->nullable();
             $table->string('facebookId')->nullable();
-            $table->tinyInteger('isActive')->default(0);
+            $table->tinyInteger('isRegistrationComplete')->default(0);
             $table->timestamps();
         });
     }
