@@ -68,23 +68,10 @@ class LoginSocialiteTest extends TestCase
         $this->assertEquals(0, $saved->isActive);
     }
 
-//    /**
-//     * @test
-//     */
-//    public function can_only_access_complete_registration_if_has_artist_session()
-//    {
-//        $this->withoutExceptionHandling();
-//
-//        $response = $this->get('/registration');
-//
-//        $response->assertRedirect('/');
-//        $response->assertSessionHas('errors');
-//    }
-
     /**
      * @test
      */
-    public function can_only_access_complete_registration_if_not_active()
+    public function can_only_access_registration_if_not_active()
     {
         $this->withoutExceptionHandling();
 
@@ -99,7 +86,7 @@ class LoginSocialiteTest extends TestCase
     /**
      * @test
      */
-    public function not_show_complete_registration_if_user_is_already_active_when_logged_in_by_provider()
+    public function not_show_registration_if_user_is_already_active_when_logged_in_by_provider()
     {
         $this->withoutExceptionHandling();
 
@@ -132,7 +119,9 @@ class LoginSocialiteTest extends TestCase
         $artist = create(Artist::class, ['isRegistrationComplete' => 0]);
 
         $response = $this->withSession(['artist' => $artist])->post('/registration', [
+            'name' => 'Jonathan Fontes',
             'realName' => 'Jonathan Fontes',
+            'email' => 'me@jonathan.pt',
             'address' => 'Rua Jacinto',
             'city' => 'Espinho',
             'postalCode' => '4500-001',

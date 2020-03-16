@@ -13,7 +13,7 @@
             data-date-start-date="{{ $startDate ?? '' }}"
             data-date-end-date="{{ $endDate ?? '' }}"
             data-date-language="{{ collect(explode("_", app()->getLocale()))->first() }}"
-            name="{{ $field ?? '' }}"
+            name="{{ $field ?? '' }}@error($field) is-invalid @enderror"
             id="{{ $id ?? '' }}"
             class="form-control {{ $class ?? '' }}"
             value="{{ isset ($field) && isset($record->$field) ? $record->$field : (isset($default) ? $default : old($field))  }}"
@@ -52,5 +52,8 @@
     </div>
     <small class="form-text">
         {!! $help ?? '' !!}
+        @error($field)
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </small>
 </div>

@@ -8,7 +8,7 @@
     </label>
     <textarea
         placeholder="{{ $placeholder ?? $label }}"
-        class="form-control {{ $classInput ?? '' }}"
+        class="form-control {{ $classInput ?? '' }}@error($field) is-invalid @enderror"
         name="{{ $field ?? '' }}"
         {{ !empty($id) ? "id=\"$id\"" : "" }}
         cols="{{ $cols ?? '' }}"
@@ -25,5 +25,8 @@
     >{{ isset ($field) && isset($record->$field) ? $record->$field : (isset($default) ? $default : old($field))  }}</textarea>
     <small class="form-text">
         {!! $help ?? '' !!}
+        @error($field)
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </small>
 </div>

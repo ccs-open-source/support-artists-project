@@ -2,7 +2,7 @@
     @if(!empty($label))
     <label for="{{$field ?? ''}}">
         @if(!empty($validation) && ($validation['required'] ?? false) == true)
-            {{ $label ?? '' }}&nbsp;<span class="required font-danger">*</span>
+            {{ $label ?? '' }}&nbsp;<span class="required text-danger">*</span>
         @else
             {{ $label ?? '' }}
         @endif
@@ -21,7 +21,7 @@
         name="{{ $field ?? '' }}"
         title="{{ $placeholder ?? '' }}"
         {{ !empty($id) ? "id=\"$id\"" : "" }}
-        class="form-control {{ $classInput ?? '' }}"
+        class="form-control {{ $classInput ?? '' }}@error($field) is-invalid @enderror"
         value="{{ isset ($field) && isset($record->$field) ? $record->$field : (isset($default) ? $default : old($field))  }}"
         placeholder="{{ $placeholder ?? $label }}"
         {{ !empty($maxLength) ? 'maxlength='.$maxLength : '' }}
@@ -55,5 +55,9 @@
     @endif
     <small class="form-text">
         {!! $help ?? '' !!}
+
+        @error($field)
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
     </small>
 </div>

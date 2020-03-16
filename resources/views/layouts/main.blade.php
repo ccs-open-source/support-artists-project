@@ -12,6 +12,7 @@
     @include("include.top-nav-bar")
 
     <div class="container">
+        @include("include.alert-validation")
         @yield('body')
     </div>
 

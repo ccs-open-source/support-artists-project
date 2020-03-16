@@ -15,7 +15,7 @@
         style="width: 100%;"
         class="form-control {{ $selectClass ?? '' }}" {!! !empty($noSelect2) ? '' : 'data-autoloading="select2"' !!}
         {!! !empty($allowClear) ? ' data-allowclear="true"' : '' !!}
-        name="{{$field}}{{ !empty($multiple) ? '[]' : '' }}"
+        name="{{$field}}{{ !empty($multiple) ? '[]' : '' }}@error($field) is-invalid @enderror"
         data-placeholder="{{ $placeholder ?? '' }}"
 
         @if (!empty($validation))
@@ -122,6 +122,9 @@
     @endif
     <small class="form-text">
         {!! $help ?? '' !!}
+        @error($field)
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </small>
 </div>
 

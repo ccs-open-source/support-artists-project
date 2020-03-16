@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stream;
+use App\Models\Artist;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateArtistPost;
 
 class HomeController extends Controller
 {
@@ -32,12 +34,6 @@ class HomeController extends Controller
      */
     public function completeRegistration(Request $request)
     {
-//        if(!session()->has('artist')) {
-//            return redirect()->route('home.index')->withErrors([
-//                'artist' => 'You must first try to register'
-//            ]);
-//        }
-
         $artist = session()->get('artist');
         if (!empty($artist->isRegistrationComplete)) {
             return redirect()->route('home.index')->withErrors([
@@ -54,12 +50,17 @@ class HomeController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function finishedRegistration(Request $request)
+    public function finishedRegistration(CreateArtistPost $request)
     {
         $data = $request->except(['_csrf_token']);
 
-        $artist = session()->get('artist');
+        $artist = new Artist;
+        if (session()->has('artist')) {
+            $artist = session()->get('artist');
+        }
 
+        $artist->email = $data['email'];
+        $artist->name = $data['name'];
         $artist->realName = $data['realName'];
         $artist->isRegistrationComplete = 1;
         $artist->address = $data['address'] ?? '';

@@ -17,7 +17,7 @@
             data-date-language="{{ collect(explode("_", app()->getLocale()))->first() }}"
             name="{{ $field ?? '' }}"
             {{ !empty($id) ? "id=\"$id\"" : "" }}
-            class="form-control {{ $class ?? '' }}"
+            class="form-control {{ $class ?? '' }}@error($field) is-invalid @enderror"
             value="{{ isset ($field) && isset($record->$field) ? $record->$field : (isset($default) ? $default : old($field))  }}"
             placeholder="{{ $placeholder ?? $label }}"
             title="{{ $placeholder ?? '' }}"
@@ -55,5 +55,8 @@
     </div>
     <small class="form-text">
         {!! $help ?? '' !!}
+        @error($field)
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
     </small>
 </div>
