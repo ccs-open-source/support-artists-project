@@ -14,15 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Register Callbacks
-Route::get('/register/{provider}', ['as' => 'register', 'uses' => 'SocialLoginController@redirectToProvider']);
+Route::get('/register/{provider}', ['as' => 'register.provider', 'uses' => 'SocialLoginController@redirectToProvider']);
 Route::get('/register/{provider}/callback', 'SocialLoginController@handleProviderCallback');
 
 // Home Controllers
 Route::group(['prefix' => '/', 'as' => 'home.'], function () {
     Route::get('/', 'HomeController@index')->name('index');
-    Route::get('/register', 'HomeController@register')->name('register');
-    Route::get('/complete-registration', ['as' => 'complete-registration', 'uses' => 'HomeController@completeRegistration']);
-    Route::post('/complete-registration', ['as' => 'complete-registration', 'uses' => 'HomeController@finishedRegistration']);
+    Route::post('/login', ['as' => 'login', 'uses' => 'LoginController@login']);
+    Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
+    Route::get('/registration', ['as' => 'registration', 'uses' => 'HomeController@completeRegistration']);
+    Route::post('/registration', ['as' => 'registration', 'uses' => 'HomeController@finishedRegistration']);
 
     Route::get('js/lang.js', 'AssetsController@lang')->name('assets.lang');
     Route::get('js/lang.{file}.js', 'AssetsController@langByFile')->name('assets.lang.file');

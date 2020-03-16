@@ -7,7 +7,7 @@
         </div>
     </div>
 
-<form action="{{ route('home.complete-registration') }}" method="post" class="mt-5">
+<form action="{{ route('home.registration') }}" method="post" class="mt-5">
     @csrf
 
     <div class="row">

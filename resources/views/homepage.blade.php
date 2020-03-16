@@ -46,8 +46,8 @@
         <h1 class="display-4">Artist Platform</h1>
         <p class="lead">{{ config('app.description') }}</p>
         <hr class="my-4">
-        <a href="{{ route('register', ['provider' => 'facebook']) }}" class="btn btn-primary btn-lg">Facebook</a>
-        <a href="{{ route('register', ['provider' => 'twitter']) }}" class="btn btn-primary btn-lg">Twitter</a>
+        <a href="{{ route('register.provider', ['provider' => 'facebook']) }}" class="btn btn-primary btn-lg">Facebook</a>
+        <a href="{{ route('register.provider', ['provider' => 'twitter']) }}" class="btn btn-primary btn-lg">Twitter</a>
         <hr class="my-4">
         <p>To learn more how this platform work we suggest to visit wiki pages.</p>
         <a class="btn btn-secondary btn-lg" href="#" role="button">Learn more</a>

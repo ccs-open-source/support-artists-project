@@ -35,6 +35,6 @@ class SocialLoginController extends Controller
         $artist->save();
 
         session()->put('artist', $artist);
-        return redirect()->route('home.complete-registration');
+        return redirect()->route('home.registration');
     }
 }

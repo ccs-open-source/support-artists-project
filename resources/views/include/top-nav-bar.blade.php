@@ -24,7 +24,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="{{ route('home.register') }}" class="nav-link">
+                    <a href="{{ route('home.login') }}" class="nav-link">
                         {{ trans('nav.log-in') }}
                     </a>
                 </li>

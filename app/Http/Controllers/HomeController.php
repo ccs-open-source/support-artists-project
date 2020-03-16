@@ -32,11 +32,11 @@ class HomeController extends Controller
      */
     public function completeRegistration(Request $request)
     {
-        if(!session()->has('artist')) {
-            return redirect()->route('home.index')->withErrors([
-                'artist' => 'You must first try to register'
-            ]);
-        }
+//        if(!session()->has('artist')) {
+//            return redirect()->route('home.index')->withErrors([
+//                'artist' => 'You must first try to register'
+//            ]);
+//        }
 
         $artist = session()->get('artist');
         if (!empty($artist->isRegistrationComplete)) {
