@@ -29,7 +29,7 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($artist, 'web-artists');
     }
 
-        /** @test */
+    /** @test */
     public function as_authenticated_i_can_see_my_name_on_top()
     {
         $artist = create(Artist::class);
