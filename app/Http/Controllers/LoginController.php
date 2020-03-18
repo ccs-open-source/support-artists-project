@@ -15,4 +15,19 @@ class LoginController extends Controller
         return view('pages.home.login');
     }
 
+    /**
+     *  
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        $credentials['isRegistrationComplete'] = 1;
+
+        if (\Auth::guard('web-artists')->attempt($credentials)) {
+            return redirect()->intended('/');
+        }
+
+        return redirect()->route('home.login');
+    }
+
 }

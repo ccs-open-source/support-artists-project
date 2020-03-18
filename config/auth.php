@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Artist;
+
 return [
 
     /*
@@ -41,6 +43,11 @@ return [
             'provider' => 'users',
         ],
 
+        'web-artists' => [
+            'driver' => 'session',
+            'provider' => 'artists',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -69,6 +76,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'artists' => [
+            'driver' => 'eloquent',
+            'model' => Artist::class,
         ],
 
         // 'users' => [
