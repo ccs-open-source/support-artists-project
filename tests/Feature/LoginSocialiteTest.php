@@ -145,4 +145,16 @@ class LoginSocialiteTest extends TestCase
             'wantDonation' => 1
         ]);
     }
+
+    /** @test */
+    public function after_complete_registration_artist_session_key_is_deleted()
+    {
+        $artist = make(Artist::class);
+        $response = $this->withSession(['artist' => $artist])
+        ->post('/registration', $artist->toArray());
+
+        $response->assertRedirect("/");
+        $this->assertDatabaseHas('artists', ['id' => 1, 'name' => $artist->name]);
+        $response->assertSessionMissing('artist');
+    }
 }

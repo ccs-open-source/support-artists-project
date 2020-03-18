@@ -111,4 +111,26 @@ class RegisterFlowTest extends TestCase
             'wantDonation' => $artist->wantDonation
         ]);
     }
+
+    /** @test */
+    public function email_must_be_unique()
+    {
+        create(Artist::class, [
+            'isRegistrationComplete' => 1,
+            'email' => 'jonathan.fontes@creativecodesolutions.pt'
+        ]);
+
+        $artist = make(Artist::class, [
+            'isRegistrationComplete' => 0,
+            'name' => 'Jonathan Fontes',
+            'email' => 'jonathan.fontes@creativecodesolutions.pt'
+        ]);
+
+        $response = $this->post('/registration', $artist->toArray());
+
+        $this->assertDatabaseMissing('artists', [
+            'name' => $artist->name,
+            'email' => $artist->email
+        ]);
+    }
 }

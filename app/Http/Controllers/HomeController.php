@@ -73,7 +73,7 @@ class HomeController extends Controller
         $artist->wantDonation = $data['wantDonation'] ?? 0;
 
         $artist->save();
-        session()->put('artist', $artist);
+        session()->remove('artist');
 
         return redirect()->route('home.index');
     }

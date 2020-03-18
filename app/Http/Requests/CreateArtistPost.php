@@ -37,7 +37,7 @@ class CreateArtistPost extends FormRequest
         return [
             'name' => 'required',
             'realName' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:artists,email',
             'iban' => 'required_if:wantDonation,1'
         ];
     }

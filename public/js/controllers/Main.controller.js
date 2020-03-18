@@ -76,8 +76,8 @@ window.InterfaceController = Main;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\CCSDEV\Clients\CCS\OpenSources\support-artists-project-v2\resources\js\controllers\Main.controller.js */"./resources/js/controllers/Main.controller.js");
-module.exports = __webpack_require__(/*! C:\CCSDEV\Clients\CCS\OpenSources\support-artists-project-v2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jfontes/Sites/support-artists-project/resources/js/controllers/Main.controller.js */"./resources/js/controllers/Main.controller.js");
+module.exports = __webpack_require__(/*! /Users/jfontes/Sites/support-artists-project/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

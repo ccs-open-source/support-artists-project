@@ -63,7 +63,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\CCSDEV\Clients\CCS\OpenSources\support-artists-project-v2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jfontes/Sites/support-artists-project/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })
