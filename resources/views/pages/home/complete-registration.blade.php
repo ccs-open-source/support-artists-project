@@ -19,8 +19,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col col-12 col-md-12">
+        <div class="col col-12 col-md-8">
             @input(['field' => 'email', 'label' => trans('artist.email'), 'help' => trans('artist.email-help')])
+        </div>
+        <div class="col col-12 col-md-4">
+            @input(['field' => 'password', 'label' => trans('artist.password'), 'help' => trans('artist.password-help'), 'type' => 'password'])
         </div>
     </div>
 

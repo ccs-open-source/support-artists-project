@@ -65,6 +65,7 @@ class HomeController extends Controller
         $artist->isRegistrationComplete = 1;
         $artist->address = $data['address'] ?? '';
         $artist->city = $data['city'] ?? '';
+        $artist->password = \Hash::make($data['password']);
         $artist->countryCode = $data['countryCode'] ?? '';
         $artist->postalCode = $data['postalCode'] ?? '';
         $artist->vat = $data['vat'] ?? '';

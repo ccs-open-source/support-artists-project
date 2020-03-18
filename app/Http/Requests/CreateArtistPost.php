@@ -23,7 +23,8 @@ class CreateArtistPost extends FormRequest
             'name' => trans('register.name'),
             'email' => trans('register.email'),
             'iban' => trans('artist.iban'),
-            'wantDonation' => trans('artist.want-donation')
+            'wantDonation' => trans('artist.want-donation'),
+            'password' => trans('artist.password')
         ];
     }
 
@@ -38,7 +39,8 @@ class CreateArtistPost extends FormRequest
             'name' => 'required',
             'realName' => 'required',
             'email' => 'required|unique:artists,email',
-            'iban' => 'required_if:wantDonation,1'
+            'iban' => 'required_if:wantDonation,1',
+            'password' => 'required|min:6'
         ];
     }
 }

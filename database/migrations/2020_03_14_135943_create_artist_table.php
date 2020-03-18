@@ -18,6 +18,7 @@ class CreateArtistTable extends Migration
             $table->string('name')->nullable();
             $table->string('realName');
             $table->string('email');
+            $table->string('password')->nullable();
             $table->string('avatar')->nullable();
             $table->string('twitter')->nullable();
             $table->string('address')->nullable();

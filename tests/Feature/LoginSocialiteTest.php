@@ -127,6 +127,7 @@ class LoginSocialiteTest extends TestCase
             'postalCode' => '4500-001',
             'vat' => '243091834',
             'countryCode' => 'PT',
+            'password' => '12345678',
             'iban' => 'PT500007000010000100001',
             'activityProof' => 'https://www.facebook.com/activity-proof',
             'wantDonation' => 1
@@ -156,5 +157,35 @@ class LoginSocialiteTest extends TestCase
         $response->assertRedirect("/");
         $this->assertDatabaseHas('artists', ['id' => 1, 'name' => $artist->name]);
         $response->assertSessionMissing('artist');
+    }
+
+    /** @test */
+    public function in_case_email_already_exists_on_database_we_must_merge_account()
+    {
+        $this->withoutExceptionHandling();
+        create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com', 'facebookId' => null]);
+        $artist = make(Artist::class, ['email' => 'jonathan.alexey16@gmail.com']);
+
+        $abstractUser = Mockery::mock(FacebookProvider::class);
+        $abstractUser
+            ->shouldReceive('getId')
+            ->andReturn($artist->facebookId)
+            ->shouldReceive('getName')
+            ->andReturn($artist->realName)
+            ->shouldReceive('getEmail')
+            ->andReturn($artist->email)
+            ->shouldReceive('getAvatar')
+            ->andReturn($artist->avatar);
+        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+
+        $this->get('/register/facebook/callback')
+            ->assertRedirect('/');
+
+        $this->assertEquals(1, Artist::all()->count());
+        $this->assertDatabaseHas('artists', [
+            'id' => 1,
+            'email' => 'jonathan.alexey16@gmail.com',
+            'facebookId' => $artist->facebookId
+        ]);
     }
 }

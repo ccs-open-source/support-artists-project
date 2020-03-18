@@ -14,6 +14,7 @@ $factory->define(Artist::class, function (Faker $faker) {
         'address' => $faker->address,
         'city' => $faker->city,
         'postalCode' => '4500-000',
+        'password' => \Hash::make(implode(' ', $faker->words)),
         'vat' => $faker->taxpayerIdentificationNumber,
         'iban' => $faker->iban('PT'),
         'activityProof' => $faker->url,

@@ -11,6 +11,8 @@ return [
     'vat-help' => '',
     'email' => 'E-mail',
     'email-help' => '',
+    'password' => 'Palavra-passe',
+    'password-help' => '',
     'iban' => 'IBAN',
     'iban-help' => '',
     'address' => 'Morada',

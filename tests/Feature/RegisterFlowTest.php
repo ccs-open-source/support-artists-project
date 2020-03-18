@@ -48,8 +48,10 @@ class RegisterFlowTest extends TestCase
     public function can_create_account_if_not_comming_from_social_registration()
     {
         $this->withoutExceptionHandling();
+
         $artist = make(Artist::class, [
             'isRegistrationComplete' => 0,
+            'password' => '12345678'
         ]);
 
         $response = $this->post('/registration', $artist->toArray());
@@ -78,7 +80,7 @@ class RegisterFlowTest extends TestCase
         $response = $this->post('/registration', ['city' => 'Espinho']);
 
         $response->assertSessionHasErrors([
-            'name', 'realName', 'email'
+            'name', 'realName', 'email', 'password'
         ]);
 
         $this->assertDatabaseMissing('artists', [
