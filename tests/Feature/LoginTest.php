@@ -28,4 +28,15 @@ class LoginTest extends TestCase
         $response->assertRedirect('/');
         $this->assertAuthenticatedAs($artist, 'web-artists');
     }
+
+        /** @test */
+    public function as_authenticated_i_can_see_my_name_on_top()
+    {
+        $artist = create(Artist::class);
+        $this->actingAs($artist, 'web-artists');
+
+        $response = $this->get('/');
+
+        $response->assertSee($artist->realName);
+    }
 }

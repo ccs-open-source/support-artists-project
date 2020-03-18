@@ -20,7 +20,7 @@
                         </div>
                         <div class="row">
                             <div class="col col-12">
-                                @input(['field' => 'password', 'label' => trans('register.password')])
+                                @input(['field' => 'password', 'type' => 'password', 'label' => trans('register.password')])
                             </div>
                         </div>
 

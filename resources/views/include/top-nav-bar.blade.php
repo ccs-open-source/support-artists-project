@@ -24,9 +24,18 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    @auth('web-artists')
+                        <a href="#" class="nav-link">
+                            {{ auth('web-artists')->user()->realName }}
+                        </a>
+                    @endauth
+
+                    @guest('web-artists')
                     <a href="{{ route('home.login') }}" class="nav-link">
                         {{ trans('nav.log-in') }}
                     </a>
+                    @endguest
+                    
                 </li>
             </ul>
         </div>
