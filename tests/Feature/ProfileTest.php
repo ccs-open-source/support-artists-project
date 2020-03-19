@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class ProfileTest extends TestCase
 {
+    use RefreshDatabase;
+    
     /**
      * A basic feature test example.
      *
@@ -15,6 +17,8 @@ class ProfileTest extends TestCase
      */
     public function testExample()
     {
+        $this->withoutExceptionHandling();
+        
         $response = $this->get('/');
 
         $response->assertStatus(200);
