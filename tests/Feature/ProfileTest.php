@@ -68,6 +68,7 @@ class ProfileTest extends TestCase
         $artist = $this->logIn();
         $update = $artist->toArray();
         $update['name'] = 'Jonathan Fontes';
+        unset($update['password']);
 
         $response = $this->post('/profile/update', $update);
 
@@ -75,6 +76,41 @@ class ProfileTest extends TestCase
         $this->assertDatabaseHas('artists', [
             'id' => 1,
             'name' => 'Jonathan Fontes'
+        ]);
+    }
+
+    /** @test */
+    public function i_cannot_change_my_email_from_form()
+    {
+        $this->withoutExceptionHandling();
+        
+        $artist = $this->logIn();
+        $update = $artist->toArray();
+        $update['email'] = 'jonathan.alexey16@gmail.com';
+        unset($update['password']);
+
+        $response = $this->post('/profile/update', $update);
+
+        $response->assertRedirect('/profile');
+        $this->assertDatabaseHas('artists', [
+            'id' => 1,
+            'email' => $artist->email
+        ]);
+        $this->assertDatabaseMissing('artists', [
+            'email' => 'jonathan.alexey16@gmail.com'
+        ]);
+    }
+
+    /** @test */
+    public function some_fields_is_required_in_order_to_update_profile()
+    {
+          
+        $artist = $this->logIn();
+
+        $response = $this->post('/profile/update', []);
+
+        $response->assertSessionHasErrors([
+            'name', 'realName'
         ]);
     }
 }

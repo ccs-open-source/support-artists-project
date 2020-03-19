@@ -13,6 +13,8 @@ return [
     'email-help' => '',
     'password' => 'Palavra-passe',
     'password-help' => '',
+    'password-confirmation' => 'Confirmação de Palavra-passe',
+    'password-confirmation-help' => '',
     'iban' => 'IBAN',
     'iban-help' => '',
     'address' => 'Morada',

@@ -44,5 +44,15 @@ class ComponentViewServiceProvider extends ServiceProvider
         Blade::include('components.form.datepicker', 'datepicker');
         Blade::include('components.form.datetimepicker', 'datetimepicker');
 
+        Blade::if('inUrl', function (...$urls) {
+            $isInPath = false;
+            foreach ($urls as $url) {
+                if (request()->is($url) || request()->is($url."/*")) {
+                    $isInPath = true;
+                    break;
+                }
+            }
+            return $isInPath;
+        });
     }
 }

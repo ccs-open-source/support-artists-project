@@ -3,7 +3,10 @@
 @section('body')
     <div class="row mt-5">
         <div class="col-12 col-md-12">
-            <h2 cl>{{ trans('artist.complete-registration') }} <small>{{ trans('artist.complete-registration-help') }}</small></h2>
+            <h2>
+                {{ trans('artist.complete-registration') }} 
+                <small>{{ trans('artist.complete-registration-help') }}</small>
+            </h2>
         </div>
     </div>
 
@@ -67,7 +70,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col col-12 col-md-4">
+        <div class="col col-12 col-md-6">
             @input(['field' => 'iban', 'label' => trans('artist.iban'), 'help' => trans('artist.iban-help')])
         </div>
     </div>

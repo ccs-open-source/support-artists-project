@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateArtistPost;
 
 class ProfileController extends Controller
 {
@@ -11,7 +12,7 @@ class ProfileController extends Controller
         return view('pages.profiles.index', ['record' => auth('web-artists')->user()]);
     }
 
-    public function update(Request $request)
+    public function update(UpdateArtistPost $request)
     {
         $payload = $request->only(['name', 'realName', 'password', 'address', 'city', 'postalCode', 'countryCode', 'vat', 'activityProof', 'iban', 'wantDonation']);
 
@@ -26,6 +27,10 @@ class ProfileController extends Controller
         $artist->activityProof = $request->activityProof;
         $artist->iban = $request->iban;
         $artist->wantDonation = $request->wantDonation;
+        if (!empty($artist->password) && !empty($artist->repassword)) {
+            $artist->password = \Hash::make($request->password);
+        }
+        
 
         $artist->save();
 

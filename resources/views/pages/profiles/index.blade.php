@@ -36,6 +36,14 @@
                                 @input(['field' => 'password', 'label' => trans('artist.password'), 'help' => trans('artist.password-help'), 'type' => 'password'])
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col col-12 col-md-4 offset-md-8">
+                                @input([
+                                'field' => 'password_confirmation', 
+                                'label' => trans('artist.password-confirmation'), 
+                                'help' => trans('artist.password-help'), 'type' => 'password'])
+                            </div>
+                        </div>
 
                         <hr class="my-4">
 
@@ -68,6 +76,7 @@
                             <div class="col col-12 col-md-6">
                                 @checkbox([
                                     'field' => 'wantDonation',
+                                    'type' => 'checkbox',
                                     'label' => trans('artist.want-donation'),
                                     'class' => 'mt-4',
                                     'validation' => [
@@ -77,7 +86,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col col-12 col-md-4">
+                            <div class="col col-12 col-md-6">
                                 @input(['field' => 'iban', 'label' => trans('artist.iban'), 'help' => trans('artist.iban-help')])
                             </div>
                         </div>
@@ -91,6 +100,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="col col-12 col-md-4">
             <h3>{{ trans('profile.hi-artist', ['artist' => $record->realName]) }}</h3>
             <img src="{{ $record->avatar }}?s=500" alt="{{ $record->name }}" class="img-fluid img-thumbnail rounded mb-2">
@@ -98,12 +108,17 @@
                 <div class="card-header">
                     {{ trans('profile.menu') }}
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="#">{{ trans('profile.menu-general') }}</a></li>
-                    <li class="list-group-item"><a href="#">{{ trans('profile.menu-stream') }}</a></li>
-                    <li class="list-group-item"><a href="#">{{ trans('profile.menu-donation') }}</a></li>
-                    <li class="list-group-item"><a href="#">{{ trans('profile.menu-security') }}</a></li>
-                </ul>
+                <div class="list-group list-group-flush">
+                    <a href="{{ route('profile.index') }}" class="list-group-item list-group-item-action 
+                        @inUrl('profile') 
+                        active 
+                        @endinUrl">
+                        {{ trans('profile.menu-general') }}
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        {{ trans('profile.menu-stream') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
