@@ -36,4 +36,11 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.index');
     }
+
+    public function social(Request $request)
+    {
+        return view('pages.profiles.social', [
+            'record' => auth('web-artists')->user()
+        ]);
+    }
 }

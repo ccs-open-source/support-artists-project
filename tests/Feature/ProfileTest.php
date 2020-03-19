@@ -21,6 +21,8 @@ class ProfileTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewHas('record');
         $response->assertSee($artist->realName);
+        $response->assertSee(route('profile.index'));
+        $response->assertSee(route('profile.social'));
     }
 
     /** @test */
@@ -104,7 +106,6 @@ class ProfileTest extends TestCase
     /** @test */
     public function some_fields_is_required_in_order_to_update_profile()
     {
-          
         $artist = $this->logIn();
 
         $response = $this->post('/profile/update', []);
@@ -112,5 +113,20 @@ class ProfileTest extends TestCase
         $response->assertSessionHasErrors([
             'name', 'realName'
         ]);
+    }
+
+    /** @test */
+    public function on_social_page_i_can_logged_in_to_different_platform()
+    {
+        $this->withoutExceptionHandling();
+        
+        $artist = $this->logIn();
+
+        $response = $this->get('/profile/social');
+
+        $response->assertViewHas('record');
+        $response->assertSee(route('register.provider', ['facebook']));
+        $response->assertSee(route('register.provider', ['twitter']));
+        $response->assertSee(route('register.provider', ['youtube']));
     }
 }

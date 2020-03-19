@@ -33,6 +33,7 @@ Route::group(['prefix' => '/', 'as' => 'home.'], function () {
 Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
     Route::get('/', 'ProfileController@index')->name('index');
     Route::post('/update', 'ProfileController@update')->name('update');
+    Route::get('/social', 'ProfileController@social')->name('social');
 });
 
 Route::get('/stream/{stream}', ['as' => 'stream.detail', 'uses' => 'StreamDetailController@index']);

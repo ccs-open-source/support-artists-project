@@ -43,6 +43,11 @@
                                 <i class="fab fa-twitter-square"></i>
                                 {{ trans('register.twitter') }}
                             </a>
+
+                            <a href="{{ route('register.provider', ['provider' => 'youtube']) }}" class="btn btn-secondary">
+                                <i class="fab fa-youtube-square"></i>
+                                {{ trans('register.youtube') }}
+                            </a>
                         </div>
 
                     </form>

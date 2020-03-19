@@ -14,7 +14,7 @@ git clone git@github.com:ccs-open-source/support-artists-project.git
 
 Then install dependencies,
 ```
-composer install
+composer install && npm install && npm run dev
 ```  
 
 Make a copy of ``.env.example`` to ``.env`` and then configure at your way, after that
@@ -24,6 +24,17 @@ you can create a database and populate database with dummy information.
 php artinsa migrate
 php artisan db:seed
 ```
+
+## TO DO  
+
+ [] - Refactoring Views, there are duplicate views on profile and registration form.
+ [] - After logged in, must show a welcome message.
+ [] - Adding Javascript, when the user want donation, must show/hide the IBAN field.
+ [] - Register/Login Social Provider, must be able to redirect to homepage or to profile page.
+ [] - Remover FacebookId from artists table and put on a common place for another social network.
+ [] - Adding Twitter and Youtube to Social Login Provider (see documentation for more info)
+ [] - Change url of profile index, change from `/profile` to `/profile/general`, in order to detect where we are on side menu.  
+  
 
 ## Want contribute
 
