@@ -30,6 +30,10 @@ Route::group(['prefix' => '/', 'as' => 'home.'], function () {
     Route::get('version.txt', 'AssetsController@getVersion')->name('assets.version');
 });
 
+Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+    Route::get('/', 'ProfileController@index')->name('index');
+});
+
 Route::get('/stream/{stream}', ['as' => 'stream.detail', 'uses' => 'StreamDetailController@index']);
 
 Route::get('/artist/red-hot-chili-peppers', function () {

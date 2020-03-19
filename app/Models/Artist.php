@@ -11,4 +11,13 @@ class Artist extends Authenticatable
     {
         return \Str::slug($this->name, '-');
     }
+
+    public function getAvatarAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+
+        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
+    }
 }
