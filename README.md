@@ -1,7 +1,7 @@
 # Artists4Artists Project
 
 ## Status  
-![Artist 4 Artist - Status](https://github.com/ccs-open-source/support-artists-project/workflows/Laravel/badge.svg)  
+![Artist4Artist](https://github.com/ccs-open-source/support-artists-project/workflows/Artist4Artist/badge.svg)
 
 ## How it works  
 
