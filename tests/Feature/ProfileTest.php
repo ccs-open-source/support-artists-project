@@ -19,7 +19,7 @@ class ProfileTest extends TestCase
         $response = $this->get('/profile');
 
         $response->assertStatus(200);
-        $response->assertViewHas('artist');
+        $response->assertViewHas('record');
         $response->assertSee($artist->realName);
     }
 
@@ -45,5 +45,36 @@ class ProfileTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("https://www.gravatar.com/avatar/" . md5(strtolower(trim($artist->email))));
+    }
+
+    /** @test */
+    public function it_show_form_to_edit_account()
+    {
+        $this->withoutExceptionHandling();
+        
+        $artist = $this->logIn();
+
+        $response = $this->get('/profile');
+
+        $response->assertStatus(200);
+        $response->assertSee(route('profile.update'));
+    }
+
+    /** @test */
+    public function i_can_updated_my_personal_information_from_profile()
+    {   
+        $this->withoutExceptionHandling();
+        
+        $artist = $this->logIn();
+        $update = $artist->toArray();
+        $update['name'] = 'Jonathan Fontes';
+
+        $response = $this->post('/profile/update', $update);
+
+        $response->assertRedirect('/profile');
+        $this->assertDatabaseHas('artists', [
+            'id' => 1,
+            'name' => 'Jonathan Fontes'
+        ]);
     }
 }
