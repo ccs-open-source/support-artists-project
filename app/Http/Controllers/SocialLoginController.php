@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
+use App\Models\Social;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -19,11 +20,22 @@ class SocialLoginController extends Controller
     {
         $user = Socialite::driver($provider)->user();
 
-        $artist = Artist::where('email', $user->getEmail())->first();
+        $artist = Artist::with(['social' => function($query) use ($provider) {
+            return $query->where('provider', $provider);
+        }])->where('email', $user->getEmail())->first();
 
         if (!empty($artist) && $artist->isRegistrationComplete == 1) {
-            $artist->facebookId = $user->getId();
-            $artist->save();
+
+            $social = new Social;
+            if ($artist->social->first()) {
+                $social = $artist->social->first();
+            }
+            $social->artist_id = $artist->id;
+            $social->provider = $provider;
+            $social->provider_id = $user->getId();
+            $social->data = json_encode($user->getRaw());
+            $social->save();
+
             return redirect()->route('home.index');
         } else if(empty($artist)) {
             $artist = new Artist;
@@ -32,9 +44,15 @@ class SocialLoginController extends Controller
         $artist->realName = $user->getName();
         $artist->email = $user->getEmail();
         $artist->avatar = $user->getAvatar();
-        $artist->facebookId = $user->getId(); // @todo
         $artist->isRegistrationComplete = 0;
         $artist->save();
+
+        $social = new Social;
+        $social->artist_id = $artist->id;
+        $social->provider = $provider;
+        $social->provider_id = $user->getId();
+        $social->data = json_encode($user->getRaw());
+        $social->save();
 
         session()->put('artist', $artist);
         return redirect()->route('home.registration');

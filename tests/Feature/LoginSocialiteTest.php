@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Social;
 use Mockery;
 use App\Models\Artist;
 use Illuminate\Http\RedirectResponse;
@@ -36,36 +37,46 @@ class LoginSocialiteTest extends TestCase
      */
     public function can_authenticate_user_by_socialite_provider()
     {
-        $artist = make(Artist::class);
         $this->withoutExceptionHandling();
+
+        $artist = make(Artist::class,
+        [
+            'realName' => 'Jonathan Fontes',
+            'email' => 'jonathan.alexey16@gmail.com',
+            'avatar' => 'test.png'
+        ]);
         $abstractUser = Mockery::mock(FacebookProvider::class);
         $abstractUser
             ->shouldReceive('getId')
-            ->andReturn($artist->facebookId)
+            ->andReturn(123)
             ->shouldReceive('getName')
             ->andReturn($artist->realName)
             ->shouldReceive('getEmail')
             ->andReturn($artist->email)
             ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar);
+            ->andReturn($artist->avatar)
+            ->shouldReceive('getRaw')
+            ->andReturn($artist->toArray());
+
         Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
 
         $response = $this->get('/register/facebook/callback')
             ->assertRedirect('/registration');
 
-        $saved = Artist::first();
+        $this->assertDatabaseHas('artists', [
+            'realName' => 'Jonathan Fontes',
+            'email' => 'jonathan.alexey16@gmail.com',
+            'avatar' => 'test.png',
+            'isRegistrationComplete' => 0
+        ]);
+
+        $this->assertDatabaseHas('socials', [
+            'artist_id' => 1,
+            'provider_id' => 123,
+            'provider' => 'facebook',
+            'data' => json_encode($artist->toArray())
+        ]);
         $response->assertSessionHas('artist');
-        $this->assertEquals(1, Artist::all()->count());
-        $this->assertNotEmpty($saved->realName);
-        $this->assertNotEmpty($saved->email);
-        $this->assertNotEmpty($saved->avatar);
-        $this->assertNotEmpty($saved->facebookId);
-        $this->assertEmpty($saved->isActive);
-        $this->assertEquals($artist->realName, $saved->realName);
-        $this->assertEquals($artist->email, $saved->email);
-        $this->assertEquals($artist->avatar, $saved->avatar);
-        $this->assertEquals($artist->facebookId, $saved->facebookId);
-        $this->assertEquals(0, $saved->isActive);
     }
 
     /**
@@ -96,13 +107,16 @@ class LoginSocialiteTest extends TestCase
         $abstractUser = Mockery::mock(FacebookProvider::class);
         $abstractUser
             ->shouldReceive('getId')
-            ->andReturn($artist->facebookId)
+            ->andReturn(123)
             ->shouldReceive('getName')
             ->andReturn($artist->realName)
             ->shouldReceive('getEmail')
             ->andReturn($artist->email)
             ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar);
+            ->andReturn($artist->avatar)
+            ->shouldReceive('getRaw')
+            ->andReturn($artist->toArray());
+
         Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
 
         $this->get('/register/facebook/callback')
@@ -162,30 +176,79 @@ class LoginSocialiteTest extends TestCase
     /** @test */
     public function in_case_email_already_exists_on_database_we_must_merge_account()
     {
-        $this->withoutExceptionHandling();
-        create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com', 'facebookId' => null]);
+        create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com']);
         $artist = make(Artist::class, ['email' => 'jonathan.alexey16@gmail.com']);
 
         $abstractUser = Mockery::mock(FacebookProvider::class);
         $abstractUser
             ->shouldReceive('getId')
-            ->andReturn($artist->facebookId)
+            ->andReturn(123)
             ->shouldReceive('getName')
             ->andReturn($artist->realName)
             ->shouldReceive('getEmail')
             ->andReturn($artist->email)
             ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar);
+            ->andReturn($artist->avatar)
+            ->shouldReceive('getRaw')
+            ->andReturn($artist->toArray());
+
         Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
 
         $this->get('/register/facebook/callback')
             ->assertRedirect('/');
 
         $this->assertEquals(1, Artist::all()->count());
+
         $this->assertDatabaseHas('artists', [
             'id' => 1,
             'email' => 'jonathan.alexey16@gmail.com',
-            'facebookId' => $artist->facebookId
         ]);
+        $this->assertDatabaseHas('socials', [
+            'provider_id' => 123,
+            'provider' => 'facebook',
+            'artist_id' => 1
+        ]);
+    }
+
+    /** @test */
+    public function if_account_already_exists_and_connect_with_provider_but_logged_again_with_provider_must_show_only_one_account()
+    {
+        $this->withoutExceptionHandling();
+
+        $artist = create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com']);
+        create(Social::class, ['provider' => 'facebook', 'provider_id' => 123, 'artist_id' => $artist->id, 'data' => $artist->toJson()]);
+
+        $abstractUser = Mockery::mock(FacebookProvider::class);
+        $abstractUser
+            ->shouldReceive('getId')
+            ->andReturn(123)
+            ->shouldReceive('getName')
+            ->andReturn($artist->realName)
+            ->shouldReceive('getEmail')
+            ->andReturn($artist->email)
+            ->shouldReceive('getAvatar')
+            ->andReturn($artist->avatar)
+            ->shouldReceive('getRaw')
+            ->andReturn($artist->toArray());
+
+        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+
+        $this->get('/register/facebook/callback')
+            ->assertRedirect('/');
+
+        $this->assertEquals(1, Artist::all()->count());
+        $this->assertEquals(1, Social::all()->count());
+
+        $this->assertDatabaseHas('artists', [
+            'id' => 1,
+            'email' => 'jonathan.alexey16@gmail.com',
+        ]);
+
+        $this->assertDatabaseHas('socials', [
+            'provider_id' => 123,
+            'provider' => 'facebook',
+            'artist_id' => 1
+        ]);
+
     }
 }

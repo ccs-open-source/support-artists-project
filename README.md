@@ -21,6 +21,7 @@ Make a copy of ``.env.example`` to ``.env`` and then configure at your way, afte
 you can create a database and populate database with dummy information.  
 
 ```
+php artisan key:generate  
 php artinsa migrate
 php artisan db:seed
 ```

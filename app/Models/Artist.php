@@ -20,4 +20,9 @@ class Artist extends Authenticatable
 
         return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
     }
+
+    public function social()
+    {
+        return $this->hasMany(Social::class, 'artist_id', 'id');
+    }
 }
