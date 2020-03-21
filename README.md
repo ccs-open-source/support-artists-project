@@ -27,14 +27,29 @@ php artisan db:seed
 
 ## TO DO  
 
- [] - Refactoring Views, there are duplicate views on profile and registration form.
- [] - After logged in, must show a welcome message.
- [] - Adding Javascript, when the user want donation, must show/hide the IBAN field.
- [] - Register/Login Social Provider, must be able to redirect to homepage or to profile page.
- [] - Remover FacebookId from artists table and put on a common place for another social network.
- [] - Adding Twitter and Youtube to Social Login Provider (see documentation for more info)
- [] - Change url of profile index, change from `/profile` to `/profile/general`, in order to detect where we are on side menu.  
-  
+### Refactor / Bug Fixes
+ [] - Refactoring Views, there are duplicate views on profile and registration form.  
+ [] - After logged in, must show a welcome message.  
+ [] - Adding Javascript, when the user want donation, must show/hide the IBAN field.  
+ [] - Register/Login Social Provider, must be able to redirect to homepage or to profile page.  
+ [] - Remover FacebookId from artists table and put on a common place for another social network.  
+ [] - Change url of profile index, change from `/profile` to `/profile/general`, in order to detect where we are on side menu.   
+
+### Stream  
+ [ ] - Facebook Stream  
+ [ ] - Youtube Stream  
+
+### Artist  
+ [ ] - Show Artist Page - Detail about the artist  
+ [ ] - Show total donation won  
+ [ ] - Show all stream done in the past  
+ [ ] - Show social network on page  
+
+### Profile  
+ [ ] - Adding Twitter and Youtube to Social Login Provider (see documentation for more info)   
+ [ ] - Adding integration to Patreon or other kind of donation platform  
+ [ ] - Management of Stream  
+ 
 
 ## Want contribute
 
