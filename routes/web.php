@@ -31,7 +31,7 @@ Route::group(['prefix' => '/', 'as' => 'home.'], function () {
     Route::get('version.txt', 'AssetsController@getVersion')->name('assets.version');
 });
 
-Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => 'auth:web-artists'], function () {
     Route::get('/general', 'ProfileController@index')->name('index');
     Route::post('/update', 'ProfileController@update')->name('update');
     Route::get('/social', 'ProfileController@social')->name('social');
