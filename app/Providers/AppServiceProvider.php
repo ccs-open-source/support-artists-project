@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
         \Schema::defaultStringLength(191);
 
-        view()->composer('*', function($view) {
+        view()->composer('*', function ($view) {
             // View name
             $view_name = str_replace(['pages.', '.'], ['', '_'], $view->getName());
             $view_name = str_replace('-', '_', $view_name);

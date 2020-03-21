@@ -41,7 +41,8 @@ class Stream extends Model
      * @return string
      * @throws \Exception
      */
-    protected function timeElapsedString($datetime, $full = false) {
+    protected function timeElapsedString($datetime, $full = false)
+    {
         $now = Carbon::now();
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
@@ -66,7 +67,9 @@ class Stream extends Model
             }
         }
 
-        if (!$full) $string = array_slice($string, 0, 1);
+        if (!$full) {
+            $string = array_slice($string, 0, 1);
+        }
         return $string ? implode(', ', $string) . ' '.trans('date.ago') : trans('date.just-now');
     }
 }

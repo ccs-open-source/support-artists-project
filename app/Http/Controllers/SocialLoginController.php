@@ -20,12 +20,11 @@ class SocialLoginController extends Controller
     {
         $user = Socialite::driver($provider)->user();
 
-        $artist = Artist::with(['social' => function($query) use ($provider) {
+        $artist = Artist::with(['social' => function ($query) use ($provider) {
             return $query->where('provider', $provider);
         }])->where('email', $user->getEmail())->first();
 
         if (!empty($artist) && $artist->isRegistrationComplete == 1) {
-
             $social = new Social;
             if ($artist->social->first()) {
                 $social = $artist->social->first();
@@ -37,7 +36,7 @@ class SocialLoginController extends Controller
             $social->save();
 
             return redirect()->route('home.index');
-        } else if(empty($artist)) {
+        } elseif (empty($artist)) {
             $artist = new Artist;
         }
 
