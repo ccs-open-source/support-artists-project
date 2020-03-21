@@ -44,14 +44,17 @@ class SocialLoginController extends Controller
         $artist->email = $user->getEmail();
         $artist->avatar = $user->getAvatar();
         $artist->isRegistrationComplete = 0;
+
+
         $artist->save();
 
-        $social = new Social;
-        $social->artist_id = $artist->id;
-        $social->provider = $provider;
-        $social->provider_id = $user->getId();
-        $social->data = json_encode($user->getRaw());
-        $social->save();
+        $artist->social()->save(
+            new Social([
+                'provider' => $provider,
+                'provider_id' => $user->getId(),
+                'data' => json_encode($user->getRaw())
+            ])
+        );
 
         session()->put('artist', $artist);
         return redirect()->route('home.registration');

@@ -5,6 +5,8 @@ namespace Tests\Feature\Unit;
 use App\Models\Artist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Socialite\Two\FacebookProvider;
+use Mockery;
 use Tests\TestCase;
 
 class ArtistModelTest extends TestCase

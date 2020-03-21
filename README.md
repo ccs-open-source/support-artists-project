@@ -34,7 +34,7 @@ php artisan db:seed
  - [x] After logged in, must show a welcome message.  
  - [ ] Adding Javascript, when the user want donation, must show/hide the IBAN field.  
  - [ ] Register/Login Social Provider, must be able to redirect to homepage or to profile page.  
- - [ ] Remover FacebookId from artists table and put on a common place for another social network.    
+ - [x] Remover FacebookId from artists table and put on a common place for another social network.    
  - [x] Change url of profile index, change from `/profile` to `/profile/general`, in order to detect where we are on side menu.    
  - [x] Allow user to visit their profile page from top nav bar, clicking on their name.  
  - [x] Only authenticated user can visit pages under `/profile/*`  

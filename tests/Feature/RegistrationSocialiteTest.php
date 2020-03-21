@@ -13,14 +13,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class LoginSocialiteTest extends TestCase
+class RegistrationSocialiteTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
      * @test
      */
-    public function can_authenticate_from_facebook_drive()
+    public function can_access_registration_provider_endpoint()
     {
         $this->withoutExceptionHandling();
         $providerMock = \Mockery::mock('Laravel\Socialite\Contracts\Provider');
@@ -35,7 +35,7 @@ class LoginSocialiteTest extends TestCase
     /**
      * @test
      */
-    public function can_authenticate_user_by_socialite_provider()
+    public function can_see_registration_form_after_been_redirect_from_social_provider()
     {
         $this->withoutExceptionHandling();
 
@@ -45,31 +45,16 @@ class LoginSocialiteTest extends TestCase
             'email' => 'jonathan.alexey16@gmail.com',
             'avatar' => 'test.png'
         ]);
-        $abstractUser = Mockery::mock(FacebookProvider::class);
-        $abstractUser
-            ->shouldReceive('getId')
-            ->andReturn(123)
-            ->shouldReceive('getName')
-            ->andReturn($artist->realName)
-            ->shouldReceive('getEmail')
-            ->andReturn($artist->email)
-            ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar)
-            ->shouldReceive('getRaw')
-            ->andReturn($artist->toArray());
-
-        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+        $this->createProvider(123, $artist->realName, $artist->email, $artist->avatar, $artist->toArray());
 
         $response = $this->get('/register/facebook/callback')
             ->assertRedirect('/registration');
-
         $this->assertDatabaseHas('artists', [
             'realName' => 'Jonathan Fontes',
             'email' => 'jonathan.alexey16@gmail.com',
             'avatar' => 'test.png',
             'isRegistrationComplete' => 0
         ]);
-
         $this->assertDatabaseHas('socials', [
             'artist_id' => 1,
             'provider_id' => 123,
@@ -100,24 +85,8 @@ class LoginSocialiteTest extends TestCase
     public function not_show_registration_if_user_is_already_active_when_logged_in_by_provider()
     {
         $this->withoutExceptionHandling();
-
         $artist = create(Artist::class, ['isRegistrationComplete' => 1]);
-        $this->withoutExceptionHandling();
-
-        $abstractUser = Mockery::mock(FacebookProvider::class);
-        $abstractUser
-            ->shouldReceive('getId')
-            ->andReturn(123)
-            ->shouldReceive('getName')
-            ->andReturn($artist->realName)
-            ->shouldReceive('getEmail')
-            ->andReturn($artist->email)
-            ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar)
-            ->shouldReceive('getRaw')
-            ->andReturn($artist->toArray());
-
-        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+        $this->createProvider(123, $artist->realName, $artist->email, $artist->avatar, $artist->toArray());
 
         $this->get('/register/facebook/callback')
             ->assertRedirect('/');
@@ -178,21 +147,7 @@ class LoginSocialiteTest extends TestCase
     {
         create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com']);
         $artist = make(Artist::class, ['email' => 'jonathan.alexey16@gmail.com']);
-
-        $abstractUser = Mockery::mock(FacebookProvider::class);
-        $abstractUser
-            ->shouldReceive('getId')
-            ->andReturn(123)
-            ->shouldReceive('getName')
-            ->andReturn($artist->realName)
-            ->shouldReceive('getEmail')
-            ->andReturn($artist->email)
-            ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar)
-            ->shouldReceive('getRaw')
-            ->andReturn($artist->toArray());
-
-        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+        $this->createProvider(123, $artist->realName, $artist->email, $artist->avatar, $artist->toArray());
 
         $this->get('/register/facebook/callback')
             ->assertRedirect('/');
@@ -217,21 +172,7 @@ class LoginSocialiteTest extends TestCase
 
         $artist = create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com']);
         create(Social::class, ['provider' => 'facebook', 'provider_id' => 123, 'artist_id' => $artist->id, 'data' => $artist->toJson()]);
-
-        $abstractUser = Mockery::mock(FacebookProvider::class);
-        $abstractUser
-            ->shouldReceive('getId')
-            ->andReturn(123)
-            ->shouldReceive('getName')
-            ->andReturn($artist->realName)
-            ->shouldReceive('getEmail')
-            ->andReturn($artist->email)
-            ->shouldReceive('getAvatar')
-            ->andReturn($artist->avatar)
-            ->shouldReceive('getRaw')
-            ->andReturn($artist->toArray());
-
-        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+        $this->createProvider(123, $artist->realName, $artist->email, $artist->avatar, $artist->toArray());
 
         $this->get('/register/facebook/callback')
             ->assertRedirect('/');
@@ -249,6 +190,33 @@ class LoginSocialiteTest extends TestCase
             'provider' => 'facebook',
             'artist_id' => 1
         ]);
+    }
 
+    /**
+     * @param int $id
+     * @param string $realName
+     * @param string $email
+     * @param string $avatar
+     * @param array $rawData
+     * @return FacebookProvider|Mockery\LegacyMockInterface|Mockery\MockInterface
+     */
+    protected function createProvider($id, $realName, $email, $avatar, $rawData)
+    {
+        $abstractUser = Mockery::mock(FacebookProvider::class);
+        $abstractUser
+            ->shouldReceive('getId')
+            ->andReturn($id)
+            ->shouldReceive('getName')
+            ->andReturn($realName)
+            ->shouldReceive('getEmail')
+            ->andReturn($email)
+            ->shouldReceive('getAvatar')
+            ->andReturn($avatar)
+            ->shouldReceive('getRaw')
+            ->andReturn($rawData);
+
+        Socialite::shouldReceive('driver->user')->andReturn($abstractUser);
+
+        return $abstractUser;
     }
 }

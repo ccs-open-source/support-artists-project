@@ -13,29 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Register Callbacks
-Route::get('/register/{provider}', ['as' => 'register.provider', 'uses' => 'SocialLoginController@redirectToProvider']);
-Route::get('/register/{provider}/callback', 'SocialLoginController@handleProviderCallback');
 
-// Home Controllers
-Route::group(['prefix' => '/', 'as' => 'home.'], function () {
-    Route::get('/', 'HomeController@index')->name('index');
-    Route::post('/login', ['as' => 'login', 'uses' => 'LoginController@login']);
-    Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
-    Route::post('/logout', ['as' => 'logout', 'uses' => 'LogoutController@index']);
-    Route::get('/registration', ['as' => 'registration', 'uses' => 'HomeController@completeRegistration']);
-    Route::post('/registration', ['as' => 'registration', 'uses' => 'HomeController@finishedRegistration']);
+// Providers
+Route::name('register.')
+    ->prefix('/register/{provider}')
+    ->group(base_path('routes/web/login-provider.php'));
 
-    Route::get('js/lang.js', 'AssetsController@lang')->name('assets.lang');
-    Route::get('js/lang.{file}.js', 'AssetsController@langByFile')->name('assets.lang.file');
-    Route::get('version.txt', 'AssetsController@getVersion')->name('assets.version');
-});
+// Home Endpoints
+Route::name('home.')
+    ->prefix('/')
+    ->group(base_path('routes/web/home.php'));
 
-Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => 'auth:web-artists'], function () {
-    Route::get('/general', 'ProfileController@index')->name('index');
-    Route::post('/update', 'ProfileController@update')->name('update');
-    Route::get('/social', 'ProfileController@social')->name('social');
-});
+// Profiles
+Route::name('profile.')
+    ->prefix('profile')
+    ->middleware('auth:web-artists')
+    ->group(base_path('routes/web/profile.php'));
+
 
 Route::get('/stream/{stream}', ['as' => 'stream.detail', 'uses' => 'StreamDetailController@index']);
 
