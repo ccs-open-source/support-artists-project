@@ -22,6 +22,7 @@ Route::group(['prefix' => '/', 'as' => 'home.'], function () {
     Route::get('/', 'HomeController@index')->name('index');
     Route::post('/login', ['as' => 'login', 'uses' => 'LoginController@login']);
     Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@index']);
+    Route::post('/logout', ['as' => 'logout', 'uses' => 'LogoutController@index']);
     Route::get('/registration', ['as' => 'registration', 'uses' => 'HomeController@completeRegistration']);
     Route::post('/registration', ['as' => 'registration', 'uses' => 'HomeController@finishedRegistration']);
 
@@ -30,8 +31,8 @@ Route::group(['prefix' => '/', 'as' => 'home.'], function () {
     Route::get('version.txt', 'AssetsController@getVersion')->name('assets.version');
 });
 
-Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-    Route::get('/', 'ProfileController@index')->name('index');
+Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => 'auth'], function () {
+    Route::get('/general', 'ProfileController@index')->name('index');
     Route::post('/update', 'ProfileController@update')->name('update');
     Route::get('/social', 'ProfileController@social')->name('social');
 });

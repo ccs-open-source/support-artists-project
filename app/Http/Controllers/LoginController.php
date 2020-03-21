@@ -16,7 +16,7 @@ class LoginController extends Controller
     }
 
     /**
-     *  
+     *
      */
     public function login(Request $request)
     {
@@ -24,7 +24,8 @@ class LoginController extends Controller
         $credentials['isRegistrationComplete'] = 1;
 
         if (\Auth::guard('web-artists')->attempt($credentials)) {
-            return redirect()->intended('/');
+            $user = auth('web-artists')->user();
+            return redirect()->intended('/')->with('message', ['type' => 'success', 'message' => trans('profile.welcome-log-in-message', ['name' => $user->name])]);
         }
 
         return redirect()->route('home.login');

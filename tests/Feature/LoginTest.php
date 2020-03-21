@@ -15,18 +15,20 @@ class LoginTest extends TestCase
     public function can_authenticate()
     {
         $this->withoutExceptionHandling();
-        
-
         $artist = create(Artist::class, [
-            'email' => 'jonathan.alexey16@gmail.com', 
+            'email' => 'jonathan.alexey16@gmail.com',
             'password' => \Hash::make('12345678'),
             'isRegistrationComplete' => 1
         ]);
 
-        $response = $this->post('/login', ['email' => 'jonathan.alexey16@gmail.com', 'password' => '12345678']);
+        $response = $this->followingRedirects()
+            ->post('/login', [
+                'email' => 'jonathan.alexey16@gmail.com',
+                'password' => '12345678'
+            ]);
 
-        $response->assertRedirect('/');
         $this->assertAuthenticatedAs($artist, 'web-artists');
+        $response->assertSee(trans('profile.welcome-log-in-message', ['name' => $artist->name]));
     }
 
     /** @test */
@@ -38,5 +40,22 @@ class LoginTest extends TestCase
         $response = $this->get('/');
 
         $response->assertSee($artist->realName);
+        $response->assertSee(route('profile.index'));
     }
+
+    /** @test */
+    public function i_can_loggout()
+    {
+        $this->withoutExceptionHandling();
+        $artist = create(Artist::class);
+        $this->actingAs($artist, 'web-artists');
+
+        $response = $this->followingRedirects()->post('/logout');
+
+        $response->assertLocation('/');
+        $response->assertDontSee($artist->realName);
+        $response->assertDontSee(route('profile.index'));
+
+    }
+
 }

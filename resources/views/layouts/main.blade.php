@@ -12,7 +12,13 @@
     @include("include.top-nav-bar")
 
     <div class="container">
-        @include("include.alert-validation")
+        <div class="row mt-5">
+            <div class="col col-12">
+                @include("include.alert-validation")
+                @include("include.alert-message")
+            </div>
+        </div>
+
         @yield('body')
     </div>
 

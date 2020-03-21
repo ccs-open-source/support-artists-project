@@ -28,27 +28,7 @@
         </div>
 
         <div class="col col-12 col-md-4">
-            <h3>{{ trans('profile.hi-artist', ['artist' => $record->realName]) }}</h3>
-            <img src="{{ $record->avatar }}?s=500" alt="{{ $record->name }}" class="img-fluid img-thumbnail rounded mb-2">
-            <div class="card">
-                <div class="card-header">
-                    {{ trans('profile.menu') }}
-                </div>
-                <div class="list-group list-group-flush">
-                    <a href="{{ route('profile.index') }}" class="list-group-item list-group-item-action 
-                        @inUrl('profile') 
-                        active 
-                        @endinUrl">
-                        {{ trans('profile.menu-general') }}
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        {{ trans('profile.menu-stream') }}
-                    </a>
-                    <a href="{{ route('profile.social') }}" class="list-group-item list-group-item-action">
-                        {{ trans('profile.menu-social') }}
-                    </a>
-                </div>
-            </div>
+            @include("pages.profiles.partials.sidebar")
         </div>
     </div>
 @endsection

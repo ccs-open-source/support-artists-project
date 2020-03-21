@@ -23,19 +23,30 @@
                 </li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item dropdown">
                     @auth('web-artists')
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ auth('web-artists')->user()->avatar }}" class="img-profile mr-1" alt="{{ auth('web-artists')->user()->realName }}">
                             {{ auth('web-artists')->user()->realName }}
                         </a>
+                        <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="{{ route('profile.index') }}">{{ trans('profile.title') }}</a>
+                            <div class="dropdown-divider"></div>
+                            <form action="{{ route('home.logout') }}" method="post">
+                                @csrf
+                                <button type="submit" class="dropdown-item" href="#">{{ trans('profile.logout') }}</button>
+                            </form>
+                        </div>
                     @endauth
 
                     @guest('web-artists')
-                    <a href="{{ route('home.login') }}" class="nav-link">
-                        {{ trans('nav.log-in') }}
-                    </a>
+                        <a href="{{ route('home.login') }}" class="nav-link">
+                            {{ trans('nav.log-in') }}
+                        </a>
                     @endguest
-                    
+
+
+
                 </li>
             </ul>
         </div>

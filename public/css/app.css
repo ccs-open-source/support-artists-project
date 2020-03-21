@@ -19606,3 +19606,9 @@ readers do not read off random characters that represent icons */
   content: "\F1BA";
 }
 
+.img-profile {
+  width: 25px;
+  height: 25px;
+  border-radius: 1000px;
+}
+

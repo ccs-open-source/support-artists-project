@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Perfil',
+    'logout' => 'Sair',
     'title-social' => 'Gestão de Redes Sociais',
     'menu' => 'Menu',
     'menu-general' => 'Geral',
@@ -15,5 +16,6 @@ return [
     'twitter' => 'Twitter',
     'youtube' => 'Youtube',
     'unverified-account-can-be-verified-title' => 'Atenção! Conta não está verificada.',
-    'unverified-account-can-be-verified' => 'Esta conta ainda não foi verificada, para se tornar uma conta verificada deverá dar prova da sua actividade'
+    'unverified-account-can-be-verified' => 'Esta conta ainda não foi verificada, para se tornar uma conta verificada deverá dar prova da sua actividade',
+    'welcome-log-in-message' => 'Bem vindo, :name'
 ];

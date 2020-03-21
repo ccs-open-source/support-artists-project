@@ -13,10 +13,10 @@ class ProfileTest extends TestCase
 
     /** @test */
     public function can_access_profile_page()
-    {   
+    {
         $artist = $this->logIn();
 
-        $response = $this->get('/profile');
+        $response = $this->get('/profile/general');
 
         $response->assertStatus(200);
         $response->assertViewHas('record');
@@ -26,11 +26,19 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
+    public function only_authenticated_user_can_go_to_profile_page()
+    {
+        $response = $this->get('/profile/general');
+
+        $response->assertRedirect();
+    }
+
+    /** @test */
     public function if_account_isnt_verified_we_can_see_alert_on_profile()
     {
         $artist = $this->logIn(create(Artist::class, ['isVerified' => 0]));
 
-        $response = $this->get('/profile');
+        $response = $this->get('/profile/general');
 
         $response->assertStatus(200);
         $response->assertSee(trans('profile.unverified-account-can-be-verified'));
@@ -40,10 +48,10 @@ class ProfileTest extends TestCase
     public function it_show_gravatar_by_email()
     {
         $this->withoutExceptionHandling();
-        
+
         $artist = $this->logIn(create(Artist::class, ['avatar' => null]));
 
-        $response = $this->get('/profile');
+        $response = $this->get('/profile/general');
 
         $response->assertStatus(200);
         $response->assertSee("https://www.gravatar.com/avatar/" . md5(strtolower(trim($artist->email))));
@@ -53,10 +61,10 @@ class ProfileTest extends TestCase
     public function it_show_form_to_edit_account()
     {
         $this->withoutExceptionHandling();
-        
+
         $artist = $this->logIn();
 
-        $response = $this->get('/profile');
+        $response = $this->get('/profile/general');
 
         $response->assertStatus(200);
         $response->assertSee(route('profile.update'));
@@ -64,9 +72,9 @@ class ProfileTest extends TestCase
 
     /** @test */
     public function i_can_updated_my_personal_information_from_profile()
-    {   
+    {
         $this->withoutExceptionHandling();
-        
+
         $artist = $this->logIn();
         $update = $artist->toArray();
         $update['name'] = 'Jonathan Fontes';
@@ -74,7 +82,7 @@ class ProfileTest extends TestCase
 
         $response = $this->post('/profile/update', $update);
 
-        $response->assertRedirect('/profile');
+        $response->assertRedirect('/profile/general');
         $this->assertDatabaseHas('artists', [
             'id' => 1,
             'name' => 'Jonathan Fontes'
@@ -85,7 +93,7 @@ class ProfileTest extends TestCase
     public function i_cannot_change_my_email_from_form()
     {
         $this->withoutExceptionHandling();
-        
+
         $artist = $this->logIn();
         $update = $artist->toArray();
         $update['email'] = 'jonathan.alexey16@gmail.com';
@@ -93,7 +101,7 @@ class ProfileTest extends TestCase
 
         $response = $this->post('/profile/update', $update);
 
-        $response->assertRedirect('/profile');
+        $response->assertRedirect('/profile/general');
         $this->assertDatabaseHas('artists', [
             'id' => 1,
             'email' => $artist->email
@@ -119,7 +127,7 @@ class ProfileTest extends TestCase
     public function on_social_page_i_can_logged_in_to_different_platform()
     {
         $this->withoutExceptionHandling();
-        
+
         $artist = $this->logIn();
 
         $response = $this->get('/profile/social');
