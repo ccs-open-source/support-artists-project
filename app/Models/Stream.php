@@ -17,6 +17,18 @@ class Stream extends Model
         'tags' => 'array',
     ];
 
+    /**
+     * @return mixed|string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function getPostTimeAgoAttribute()
     {
         return $this->timeElapsedString($this->created_at);
@@ -25,9 +37,10 @@ class Stream extends Model
     /**
      * Get Slug from Title
      */
-    public function getSlugAttribute()
+    public function setTitleAttribute($value)
     {
-        return \Str::slug($this->title, '-');
+        $this->attributes['slug'] = \Str::slug($value, '-');
+        $this->attributes['title'] = $value;
     }
 
     public function artist()

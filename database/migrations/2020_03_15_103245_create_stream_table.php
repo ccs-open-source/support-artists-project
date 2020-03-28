@@ -17,6 +17,7 @@ class CreateStreamTable extends Migration
             $table->id();
             $table->integer('artist_id')->unsigned();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->tinyInteger('isLive')->default(0);
             $table->string('tags')->nullable();
             $table->integer('clicks')->unsigned()->default(0);

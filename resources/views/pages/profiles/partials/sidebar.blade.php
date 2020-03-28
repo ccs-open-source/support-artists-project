@@ -16,5 +16,8 @@
         <a href="{{ route('profile.social') }}" class="list-group-item list-group-item-action @inUrl('profile/social') active @endinUrl">
             {{ trans('profile.menu-social') }}
         </a>
+        <a href="#" class="list-group-item list-group-item-action @inUrl('profile/grpd') active @endinUrl">
+            {{ trans('profile.menu-gdpr') }}
+        </a>
     </div>
 </div>

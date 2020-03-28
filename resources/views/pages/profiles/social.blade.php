@@ -14,6 +14,11 @@
                         <i class="fab fa-facebook-square"></i>
                         {{ trans('profile.facebook') }}
                     </a>
+                    @else
+                        <div class="btn btn-success">
+                            <i class="fab fa-facebook-square"></i>
+                            {{ trans('profile.connected') }}
+                        </div>
                     @endif
 
                     @if(!empty($social) && $social->where('provider', 'twitter')->count() <= 0)
@@ -21,6 +26,11 @@
                         <i class="fab fa-twitter-square"></i>
                         {{ trans('profile.twitter') }}
                     </a>
+                    @else
+                        <div class="btn btn-success">
+                            <i class="fab fa-twitter-square"></i>
+                            {{ trans('profile.connected') }}
+                        </div>
                     @endif
 
                     @if(!empty($social) && $social->where('provider', 'youtube')->count() <= 0)
@@ -28,6 +38,11 @@
                         <i class="fab fa-youtube-square"></i>
                         {{ trans('profile.youtube') }}
                     </a>
+                    @else
+                        <div class="btn btn-success">
+                            <i class="fab fa-yotube-square"></i>
+                            {{ trans('profile.connected') }}
+                        </div>
                     @endif
                 </div>
             </div>
