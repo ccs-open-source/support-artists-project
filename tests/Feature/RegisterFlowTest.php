@@ -135,4 +135,22 @@ class RegisterFlowTest extends TestCase
             'email' => $artist->email
         ]);
     }
+
+    /**
+     * @test
+     */
+     public function after_registration_must_see_a_welcome_message()
+     {
+         $this->withoutExceptionHandling();
+
+         $artist = make(Artist::class, [
+             'isRegistrationComplete' => 0,
+             'password' => '12345678'
+         ]);
+
+         $response = $this->followingRedirects()->post('/registration', $artist->toArray());
+
+         $response->assertOk();
+         $response->assertSee(trans('register.welcome-register-in-message', ['name' => $artist->name]));
+     }
 }

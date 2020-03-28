@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Social;
 use Tests\TestCase;
 use App\Models\Artist;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -28,15 +29,13 @@ class ProfileTest extends TestCase
     /** @test */
     public function only_authenticated_user_can_go_to_profile_page()
     {
-        $response = $this->get('/profile/general');
-
-        $response->assertRedirect();
+        $this->get('/profile/general')->assertRedirect();
     }
 
     /** @test */
     public function if_account_isnt_verified_we_can_see_alert_on_profile()
     {
-        $artist = $this->logIn(create(Artist::class, ['isVerified' => 0]));
+        $this->logIn(create(Artist::class, ['isVerified' => 0]));
 
         $response = $this->get('/profile/general');
 
@@ -47,8 +46,6 @@ class ProfileTest extends TestCase
     /** @test */
     public function it_show_gravatar_by_email()
     {
-        $this->withoutExceptionHandling();
-
         $artist = $this->logIn(create(Artist::class, ['avatar' => null]));
 
         $response = $this->get('/profile/general');
@@ -61,8 +58,7 @@ class ProfileTest extends TestCase
     public function it_show_form_to_edit_account()
     {
         $this->withoutExceptionHandling();
-
-        $artist = $this->logIn();
+        $this->logIn();
 
         $response = $this->get('/profile/general');
 
@@ -73,8 +69,6 @@ class ProfileTest extends TestCase
     /** @test */
     public function i_can_updated_my_personal_information_from_profile()
     {
-        $this->withoutExceptionHandling();
-
         $artist = $this->logIn();
         $update = $artist->toArray();
         $update['name'] = 'Jonathan Fontes';
@@ -92,8 +86,6 @@ class ProfileTest extends TestCase
     /** @test */
     public function i_cannot_change_my_email_from_form()
     {
-        $this->withoutExceptionHandling();
-
         $artist = $this->logIn();
         $update = $artist->toArray();
         $update['email'] = 'jonathan.alexey16@gmail.com';
@@ -114,11 +106,9 @@ class ProfileTest extends TestCase
     /** @test */
     public function some_fields_is_required_in_order_to_update_profile()
     {
-        $artist = $this->logIn();
+        $this->logIn();
 
-        $response = $this->post('/profile/update', []);
-
-        $response->assertSessionHasErrors([
+        $this->post('/profile/update', [])->assertSessionHasErrors([
             'name', 'realName'
         ]);
     }
@@ -126,9 +116,7 @@ class ProfileTest extends TestCase
     /** @test */
     public function on_social_page_i_can_logged_in_to_different_platform()
     {
-        $this->withoutExceptionHandling();
-
-        $artist = $this->logIn();
+        $this->logIn();
 
         $response = $this->get('/profile/social');
 
@@ -137,4 +125,31 @@ class ProfileTest extends TestCase
         $response->assertSee(route('register.provider', ['twitter']));
         $response->assertSee(route('register.provider', ['youtube']));
     }
+
+    /**
+     * @test
+     */
+     public function already_social_provide_connected_most_be_hidden()
+     {
+         $artist = $this->logIn();
+         $artist->social()->save(new Social([
+             'provider_id' => 123,
+             'provider' => 'facebook'
+         ]));
+         $artist->social()->save(new Social([
+             'provider_id' => 123,
+             'provider' => 'youtube'
+         ]));
+         $artist->social()->save(new Social([
+             'provider_id' => 123,
+             'provider' => 'twitter'
+         ]));
+
+
+         $response = $this->get('/profile/social');
+         $response->assertViewHas('record');
+         $response->assertDontSee(route('register.provider', ['facebook']));
+         $response->assertDontSee(route('register.provider', ['twitter']));
+         $response->assertDontSee(route('register.provider', ['youtube']));
+     }
 }

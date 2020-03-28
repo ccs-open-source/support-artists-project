@@ -76,6 +76,9 @@ class HomeController extends Controller
         $artist->save();
         session()->remove('artist');
 
-        return redirect()->route('home.index');
+        return redirect()->route('home.index')->with('message', [
+            'type' => 'success',
+            'message' => trans('register.welcome-register-in-message', ['name' => $artist->name])
+        ]);
     }
 }

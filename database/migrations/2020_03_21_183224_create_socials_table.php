@@ -17,7 +17,7 @@ class CreateSocialsTable extends Migration
             $table->id();
             $table->integer('artist_id')->unsigned();
             $table->enum('provider', ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'reddit', 'github']);
-            $table->integer('provider_id')->unsigned();
+            $table->bigInteger('provider_id')->unsigned();
             $table->text('data')->nullable();
             $table->timestamps();
         });

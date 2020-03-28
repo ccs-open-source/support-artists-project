@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Social;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateArtistPost;
 
@@ -30,7 +31,7 @@ class ProfileController extends Controller
         if (!empty($artist->password) && !empty($artist->repassword)) {
             $artist->password = \Hash::make($request->password);
         }
-        
+
 
         $artist->save();
 
@@ -39,8 +40,13 @@ class ProfileController extends Controller
 
     public function social(Request $request)
     {
+        $record = auth('web-artists')->user();
+
+        $social = Social::where('artist_id', $record->id)->get();
+
         return view('pages.profiles.social', [
-            'record' => auth('web-artists')->user()
+            'record' => $record,
+            'social' => $social
         ]);
     }
 }

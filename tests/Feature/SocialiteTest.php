@@ -166,7 +166,7 @@ class RegistrationSocialiteTest extends TestCase
     }
 
     /** @test */
-    public function if_account_already_exists_and_connect_with_provider_but_logged_again_with_provider_must_show_only_one_account()
+    public function ensure_after_logged_with_provider_have_one_account_only()
     {
         $this->withoutExceptionHandling();
 
@@ -191,6 +191,64 @@ class RegistrationSocialiteTest extends TestCase
             'artist_id' => 1
         ]);
     }
+
+    /**
+     * @test
+     */
+     public function if_provider_has_different_email_from_account_artist_need_to_merge_account_in_case_already_logged_in()
+     {
+         $this->withoutExceptionHandling();
+
+         $artist = create(Artist::class, ['isRegistrationComplete' => 1, 'email' => 'jonathan.alexey16@gmail.com']);
+         $this->logIn($artist);
+         create(Social::class, ['provider' => 'facebook', 'provider_id' => 123, 'artist_id' => $artist->id, 'data' => $artist->toJson()]);
+         $this->createProvider(123, $artist->realName, "geral@geral.com", $artist->avatar, $artist->toArray());
+
+         $this->get('/register/facebook/callback')
+             ->assertRedirect('/');
+
+         $this->assertEquals(1, Artist::all()->count());
+         $this->assertEquals(1, Social::all()->count());
+
+         $this->assertDatabaseHas('artists', [
+             'id' => 1,
+             'email' => 'jonathan.alexey16@gmail.com',
+         ]);
+
+         $this->assertDatabaseHas('socials', [
+             'provider_id' => 123,
+             'provider' => 'facebook',
+             'artist_id' => 1
+         ]);
+     }
+
+    /**
+     * @test
+     */
+     public function can_hit_redirect_provider_with_url_redirect_query_string()
+     {
+         $providerMock = \Mockery::mock('Laravel\Socialite\Contracts\Provider');
+         $providerMock->shouldReceive('redirect')->andReturn(new RedirectResponse('https://outside.com'));
+         Socialite::shouldReceive('driver')->with('facebook')->andReturn($providerMock);
+
+         $response = $this->get('/register/facebook?redirectTo=/profiles/social');
+
+         $response->assertRedirect('https://outside.com');
+         $response->assertSessionHas('redirectTo');
+     }
+
+     /**
+      * @test
+      */
+      public function if_have_redirectto_session_must_be_follow_that()
+      {
+          $this->withoutExceptionHandling();
+          $this->session(['redirectTo' => '/profiles/social']);
+          $this->createProvider(123, "teste", "geral@geral.com", "teste", []);
+
+          $this->get('/register/facebook/callback')
+              ->assertRedirect('/profiles/social');
+      }
 
     /**
      * @param int $id
