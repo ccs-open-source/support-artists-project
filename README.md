@@ -33,7 +33,7 @@ php artisan db:seed
  - [x] Refactoring Views, there are duplicate views on profile and registration form.  
  - [x] After logged in, must show a welcome message.  
  - [ ] Adding Javascript, when the user want donation, must show/hide the IBAN field.  
- - [ ] Register/Login Social Provider, must be able to redirect to homepage or to profile page.  
+ - [x] Register/Login Social Provider, must be able to redirect to homepage or to profile page.  
  - [x] Remover FacebookId from artists table and put on a common place for another social network.    
  - [x] Change url of profile index, change from `/profile` to `/profile/general`, in order to detect where we are on side menu.    
  - [x] Allow user to visit their profile page from top nav bar, clicking on their name.  
@@ -55,7 +55,14 @@ php artisan db:seed
 - [ ] Adding integration to Patreon or other kind of donation platform  
 - [ ] Management of Stream  
 - [ ] Permitir fazer logout
+- [ ] Permitir fazer download de todos os dados do utilizador logado. (GDPR)
+- [ ] Permitir ao utilizador apagar a sua conta e todos os dados associados a ele. (GDRP)
+- [ ] Receber notificações ou desactivar notificações. (GDRP)
+- [ ] Desassociar Social Providers from Profile
 
+### Integration
+
+- [ ] Integrate Patreon
 
 ## Want contribute
 
