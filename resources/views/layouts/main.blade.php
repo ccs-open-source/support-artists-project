@@ -46,7 +46,7 @@
         <script src="{{ mix('/js/controllers/' . ucfirst($view_name) . '.controller.js') }}?v={{ date('ymd') }}"></script>
         <script>
             $(function () {
-                window.UTP.template = "{{ucfirst($view_name)}}";
+                window.Artist4Artist.template = "{{ucfirst($view_name)}}";
                 window.InterfaceController.{{ucfirst($view_name)}}.init();
             });
         </script>

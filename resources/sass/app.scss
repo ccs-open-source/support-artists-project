@@ -14,5 +14,9 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/v4-shims";
 
+// Plugins
+@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
+@import "~select2/dist/css/select2.min.css";
+
 // Images
 @import "./base/images";

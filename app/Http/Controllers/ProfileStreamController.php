@@ -14,7 +14,7 @@ class ProfileStreamController extends Controller
      */
     public function index(Request $request)
     {
-        $stream = Stream::all();
+        $stream = Stream::where('artist_id', auth('web-artists')->id())->get();
         return view('pages.profiles.stream', ['streams' => $stream, 'record' => auth('web-artists')->user()]);
     }
 
@@ -49,7 +49,7 @@ class ProfileStreamController extends Controller
         $stream->provider_id = $request->provider_id;
         $stream->tags = $request->tags;
         $stream->isLive = !empty($request->isLive) ? $request->isLive : 0;
-        $stream->published_at = $request->published_at;
+        $stream->publish_at = $request->publish_at;
         $stream->description = $request->description;
         $stream->save();
 

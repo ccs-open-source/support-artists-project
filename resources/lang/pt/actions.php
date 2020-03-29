@@ -8,4 +8,6 @@ return [
     'cancel' => 'Cancelar',
     'edit' => 'Editar',
     'delete' => 'Apagar',
+    'create' => 'Criar',
+    'back' => 'Voltar'
 ];

@@ -38,7 +38,7 @@ class StreamWorkflowTest extends TestCase
     public function can_create_stream()
     {
         $artist = $this->logIn();
-        $stream = make(Stream::class, ['artist_id' => $artist->id, 'published_at' => '2020-01-01 00:00:00']);
+        $stream = make(Stream::class, ['artist_id' => $artist->id, 'publish_at' => '2020-01-01 00:00:00']);
 
         $response = $this->post('/profile/stream', $stream->toArray())
             ->assertRedirect('/profile/stream');
@@ -53,7 +53,7 @@ class StreamWorkflowTest extends TestCase
             'isLive' => $stream->isLive,
             'tags' => json_encode($stream->tags),
             'clicks' => 0,
-            'published_at' => $stream->published_at,
+            'publish_at' => $stream->publish_at,
             'description' => $stream->description
         ]);
     }
@@ -98,7 +98,6 @@ class StreamWorkflowTest extends TestCase
     */
     public function can_list_my_own_stream_on_my_profile_page()
     {
-         $this->withoutExceptionHandling();
          $artist = $this->logIn();
          create(Stream::class, ['artist_id' => $artist->id], 10);
 
@@ -108,7 +107,41 @@ class StreamWorkflowTest extends TestCase
          $response->assertViewIs('pages.profiles.stream');
          $response->assertViewHas('record');
          $response->assertViewHas('streams');
+         $response->assertSee(route('profile.stream.create'));
          $response->assertSee('/profile/stream/edit/');
          $response->assertSee('/profile/stream/delete/');
+    }
+
+    /**
+     * @test
+     */
+    public function can_only_see_my_own_streams()
+    {
+        $artist = $this->logIn();
+        $see = create(Stream::class, ['artist_id' => $artist->id]);
+        $dontSee = create(Stream::class, ['artist_id' => 2]);
+
+        $response = $this->get('/profile/stream');
+
+        $response->assertOk();
+        $response->assertSee($see->title);
+        $response->assertDontSee($dontSee->title);
+    }
+
+    /**
+     * @test
+     */
+    public function cannot_see_deleted_streams()
+    {
+        $artist = $this->logIn();
+        $see = create(Stream::class, ['artist_id' => $artist->id]);
+        $dontSee = create(Stream::class, ['artist_id' => $artist->id]);
+        $dontSee->delete();
+
+        $response = $this->get('/profile/stream');
+
+        $response->assertOk();
+        $response->assertSee($see->title);
+        $response->assertDontSee($dontSee->title);
     }
 }

@@ -29,6 +29,10 @@ try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
+  __webpack_require__(/*! bootstrap-datepicker */ "./node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js");
+
+  __webpack_require__(/*! select2 */ "./node_modules/select2/dist/js/select2.js");
+
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 } catch (e) {}
 /**
@@ -56,7 +60,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!***********************************!*\
   !*** multi ./resources/js/app.js ***!
   \***********************************/
@@ -68,4 +72,4 @@ module.exports = __webpack_require__(/*! /Users/jfontes/Sites/support-artists-pr
 
 /***/ })
 
-},[[1,"/js/manifest","/js/vendor"]]]);
+},[[2,"/js/manifest","/js/vendor"]]]);

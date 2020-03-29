@@ -8,5 +8,5 @@
 @endif
 >
     {!! $icon ?? '' !!}
-    {{ $title ?? trans('actions.back') }}
+    {{ $label ?? trans('actions.back') }}
 </a>

@@ -52,7 +52,18 @@ var config = __webpack_require__(/*! ../artist4artist.config */ "./resources/js/
 var trans = __webpack_require__(/*! ../classes/Translation */ "./resources/js/classes/Translation.js");
 
 var Main = new function (w) {
-  this.init = function () {};
+  this.init = function () {
+    this.loadPlugins();
+  };
+
+  this.loadPlugins = function () {
+    $.each($("[data-autoload='select2']"), function () {
+      var $this = $(this);
+      $this.select2({
+        'tags': $this.attr('data-select2-tags') ? true : false
+      });
+    });
+  };
 }(window);
 window.InterfaceController = Main;
 

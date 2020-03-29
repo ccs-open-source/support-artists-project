@@ -24,9 +24,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $stream->title }} <small>{{ $stream->artist->name }}</small></h5>
                             <p class="card-text">
-                                @foreach($stream->tags as $tags)
-                                    <span class="badge badge-primary">{!! $tags !!}</span>
-                                @endforeach
+                                @if($stream->tags && is_array($stream->tags))
+                                    @foreach($stream->tags as $tags)
+                                        <span class="badge badge-primary">{!! $tags !!}</span>
+                                    @endforeach
+                                @endif
                             </p>
                             <a href="{{ route('stream.detail', ['stream' => $stream->slug]) }}" class="btn btn-primary">{{ trans('stream.see') }}</a>
                         </div>

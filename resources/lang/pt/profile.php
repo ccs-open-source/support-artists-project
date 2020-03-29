@@ -33,6 +33,8 @@ return [
     'stream-tags-help' => 'Tags servem para poder ser pesquisáveis na plataforma e ajuda a descrever melhor o teu video. Cada tag, deve ser separado por uma virgula.',
     'stream-is-live' => 'É ao vivo',
     'stream-slug' => 'Caminho de URL',
+    'stream-description' => 'Descrição',
+    'stream-publish-at' => 'Data de Publicação',
     'stream-created-with-success' => 'O seu stream foi registado com sucesso',
     'welcome-log-in-message' => 'Bem vindo, :name'
 ];

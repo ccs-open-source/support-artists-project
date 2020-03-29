@@ -24,7 +24,7 @@ class CreateStreamTable extends Migration
             $table->string('tags')->nullable();
             $table->integer('clicks')->unsigned()->default(0);
             $table->text('description')->nullable();
-            $table->dateTime('published_at')->nullable();
+            $table->dateTime('publish_at')->nullable();
             $table->dateTime('cancel_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

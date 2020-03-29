@@ -17,6 +17,7 @@
         {!! !empty($allowClear) ? ' data-allowclear="true"' : '' !!}
         name="{{$field}}{{ !empty($multiple) ? '[]' : '' }}@error($field) is-invalid @enderror"
         data-placeholder="{{ $placeholder ?? '' }}"
+        {!! !empty($multiple) ? 'multiple="multiple"' : '' !!}
 
         @if (!empty($validation))
             @foreach ($validation as $rule => $setting)

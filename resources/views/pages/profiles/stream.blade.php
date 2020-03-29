@@ -3,7 +3,7 @@
 @section('body')
     <div class="row mt-5">
         <div class="col col-12 col-md-8">
-            @empty($streams)
+            @empty($streams->count())
                 <div class="card">
                     <div class="card-header">
                         {{ trans('profile.title-stream') }}
@@ -46,6 +46,9 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        @btnCreate(['label' => trans('actions.create'), 'class' => 'btn-sm', 'route' => route('profile.stream.create')])
                     </div>
                 </div>
             @endif

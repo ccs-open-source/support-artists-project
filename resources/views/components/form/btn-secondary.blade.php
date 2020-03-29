@@ -1,4 +1,4 @@
-<button type="submit"
+<button type="{{ $type ?? 'submit' }}"
         name="{{ $name ?? 'submit' }}"
         value="{{ $value ?? 'save' }}"
         class="btn btn-secondary {{ $class ?? '' }}"

@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/controllers/Main.controller.js": "/js/controllers/Main.controller.js",
     "/css/app.css": "/css/app.css",
+    "/js/controllers/Profiles_stream_create.controller.js": "/js/controllers/Profiles_stream_create.controller.js",
     "/js/manifest.js": "/js/manifest.js",
     "/js/vendor.js": "/js/vendor.js"
 }

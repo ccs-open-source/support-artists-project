@@ -17,8 +17,16 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col col-12 col-md-8">
+                                @select(['field' => 'tags', 'multiple' => true, 'label' => trans('profile.stream-tags'), 'help' => trans('profile.stream-tags-help'), 'data' => ['autoload' => 'select2', 'select2-tags' => true]])
+                            </div>
+                            <div class="col col-12 col-md-4">
+                                @input(['field' => 'publish_at', 'label' => trans('profile.stream-publish-at'), 'data' => ['provide' => 'datepicker']])
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col col-12 col-md-12">
-                                @textarea(['field' => 'tags', 'label' => trans('profile.stream-tags'), 'help' => trans('profile.stream-tags-help')])
+                                @textarea(['field' => 'description', 'label' => trans('profile.stream-description')])
                             </div>
                         </div>
                         <hr>
@@ -37,7 +45,7 @@
                                 @checkbox(['field' => 'isLive', 'label' => trans('profile.stream-is-live'), 'value' => 1, 'class' => 'mt-2'])
                             </div>
                             <div class="col col-12 col-md-6 text-right">
-                                @btnSecondary(['label' => trans('actions.cancel')])
+                                @btnTertiary(['label' => trans('actions.cancel'), 'type' => 'button'])
                                 @btnPrimary(['label' => trans('actions.save')])
                             </div>
                         </div>
