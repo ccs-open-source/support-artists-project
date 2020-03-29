@@ -16,7 +16,7 @@ class CreateSocialsTable extends Migration
         Schema::create('socials', function (Blueprint $table) {
             $table->id();
             $table->integer('artist_id')->unsigned();
-            $table->enum('provider', ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'reddit', 'github']);
+            $table->enum('provider', ['facebook', 'instagram', 'twitter', 'linkedin', 'reddit', 'github', 'google', 'patreon']);
             $table->bigInteger('provider_id')->unsigned();
             $table->text('data')->nullable();
             $table->timestamps();

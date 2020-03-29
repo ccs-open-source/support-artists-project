@@ -123,7 +123,7 @@ class ProfileTest extends TestCase
         $response->assertViewHas('record');
         $response->assertSee(route('register.provider', ['facebook']));
         $response->assertSee(route('register.provider', ['twitter']));
-        $response->assertSee(route('register.provider', ['youtube']));
+        $response->assertSee(route('register.provider', ['google']));
     }
 
     /**
@@ -138,7 +138,7 @@ class ProfileTest extends TestCase
          ]));
          $artist->social()->save(new Social([
              'provider_id' => 123,
-             'provider' => 'youtube'
+             'provider' => 'google'
          ]));
          $artist->social()->save(new Social([
              'provider_id' => 123,
@@ -150,6 +150,6 @@ class ProfileTest extends TestCase
          $response->assertViewHas('record');
          $response->assertDontSee(route('register.provider', ['facebook']));
          $response->assertDontSee(route('register.provider', ['twitter']));
-         $response->assertDontSee(route('register.provider', ['youtube']));
+         $response->assertDontSee(route('register.provider', ['google']));
      }
 }

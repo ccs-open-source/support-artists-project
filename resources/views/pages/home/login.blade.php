@@ -44,9 +44,9 @@
                                 {{ trans('register.twitter') }}
                             </a>
 
-                            <a href="{{ route('register.provider', ['provider' => 'youtube']) }}" class="btn btn-secondary">
-                                <i class="fab fa-youtube-square"></i>
-                                {{ trans('register.youtube') }}
+                            <a href="{{ route('register.provider', ['provider' => 'google']) }}" class="btn btn-secondary">
+                                <i class="fab fa-google"></i>
+                                {{ trans('register.google') }}
                             </a>
                         </div>
 

@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class RegistrationSocialiteTest extends TestCase
+class SocialiteTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -249,6 +249,39 @@ class RegistrationSocialiteTest extends TestCase
           $this->get('/register/facebook/callback')
               ->assertRedirect('/profiles/social');
       }
+
+      /**
+       * @test
+       */
+       public function can_have_multiple_provider_registed_by_artist()
+       {
+           $artist = $this->logIn();
+           create(Social::class, ['provider' => 'twitter', 'provider_id' => 456, 'artist_id' => $artist->id, 'data' => $artist->toJson()]);
+           $this->createProvider(123, $artist->realName, "myotheremail@email.com", $artist->avatar, $artist->toArray());
+
+           $this->get('/register/facebook/callback')
+               ->assertRedirect('/');
+
+           $this->assertEquals(1, Artist::all()->count());
+           $this->assertEquals(2, Social::all()->count());
+
+           $this->assertDatabaseHas('artists', [
+               'id' => 1,
+               'email' => $artist->email,
+           ]);
+
+           $this->assertDatabaseHas('socials', [
+               'provider_id' => 123,
+               'provider' => 'facebook',
+               'artist_id' => 1
+           ]);
+
+           $this->assertDatabaseHas('socials', [
+               'provider_id' => 456,
+               'provider' => 'twitter',
+               'artist_id' => 1
+           ]);
+       }
 
     /**
      * @param int $id

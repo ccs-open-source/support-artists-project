@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -17,8 +18,9 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "socialiteproviders/facebook": "^1.0",
-        "socialiteproviders/twitter": "^3.0",
-        "ext-json": "*"
+        "socialiteproviders/google": "^3.0",
+        "socialiteproviders/patreon": "dev-master#0cd961b7d618a52bca86c4dd91c2dcb7a59df297",
+        "socialiteproviders/twitter": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -15,6 +15,7 @@ class DefaultUserSeeder extends Seeder
         $artist->email = "geral@geral.com";
         $artist->password = \Hash::make("12345678");
         $artist->name = "Geral";
+        $artist->isRegistrationComplete = 1;
         $artist->realName = "My Real Name";
         $artist->save();
     }

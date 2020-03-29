@@ -10,6 +10,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginController extends Controller
 {
+    protected $providers = ['twitter', 'facebook', 'patreon', 'google'];
+
     /**
      * Redirect to desire provider
      *
@@ -19,6 +21,10 @@ class SocialLoginController extends Controller
      */
     public function redirectToProvider(Request $request, string $provider)
     {
+        if (!in_array($provider, $this->providers)) {
+            return new \Exception("Provider is not configure");
+        }
+
         if ($request->get('redirectTo')) {
             session()->put('redirectTo', $request->get('redirectTo'));
         }
@@ -36,35 +42,34 @@ class SocialLoginController extends Controller
      */
     public function handleProviderCallback(Request $request, string $provider)
     {
-        $url = session()->get('redirectTo');
-
         $user = Socialite::driver($provider)->user();
 
-        if (auth('web-artists')->user()) {
+        if (auth('web-artists')->check()) {
             $this->handleProviderUserAssociation($user, $provider, auth('web-artists')->user());
-            if (!empty($url)) {
-                return redirect()->to($url);
-            }
-            return redirect()->route('home.index');
+            return $this->redirectTo('home.index');
         }
 
-        $artist = Artist::with(['social' => function ($query) use ($provider) {
-            return $query->where('provider', $provider);
-        }])->where('email', $user->getEmail())->first();
+        $artist = Artist::with('social')->where('email', $user->getEmail())->first();
 
         if (!empty($artist) && $artist->isRegistrationComplete == 1) {
             $this->handleProviderUserAssociation($user, $provider, $artist);
-            if (!empty($url)) {
-                return redirect()->to($url);
-            }
-            return redirect()->route('home.index');
+            return $this->redirectTo('home.index');
         }
 
         $this->handleProviderNewArtist($user, $provider);
-        if (!empty($url)) {
-            return redirect()->to($url);
+        return $this->redirectTo('home.registration');
+    }
+
+    /**
+     * @param string $route
+     * @return mixed
+     */
+    protected function redirectTo(string $route)
+    {
+        if (session()->has('redirectTo')) {
+            return redirect()->to(session()->get('redirectTo'));
         }
-        return redirect()->route('home.registration');
+        return redirect()->route($route);
     }
 
     /**
@@ -78,8 +83,8 @@ class SocialLoginController extends Controller
     protected function handleProviderUserAssociation($user, string $provider, Artist $artist)
     {
         $social = new Social;
-        if ($artist->social->first()) {
-            $social = $artist->social->first();
+        if ($artist->social()->where('provider', $provider)->count() > 0) {
+            $social = $artist->social()->where('provider', $provider)->first();
         }
 
         $social->artist_id = $artist->id;

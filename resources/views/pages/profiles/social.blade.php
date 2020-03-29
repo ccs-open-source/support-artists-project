@@ -33,14 +33,26 @@
                         </div>
                     @endif
 
-                    @if(!empty($social) && $social->where('provider', 'youtube')->count() <= 0)
-                    <a href="{{ route('register.provider', ['provider' => 'youtube', 'redirectTo' => route('profile.social')]) }}" class="btn btn-secondary">
-                        <i class="fab fa-youtube-square"></i>
-                        {{ trans('profile.youtube') }}
+                    @if(!empty($social) && $social->where('provider', 'google')->count() <= 0)
+                    <a href="{{ route('register.provider', ['provider' => 'google', 'redirectTo' => route('profile.social')]) }}" class="btn btn-secondary">
+                        <i class="fab fa-google"></i>
+                        {{ trans('profile.google') }}
                     </a>
                     @else
                         <div class="btn btn-success">
-                            <i class="fab fa-yotube-square"></i>
+                            <i class="fab fa-google"></i>
+                            {{ trans('profile.connected') }}
+                        </div>
+                    @endif
+
+                    @if(!empty($social) && $social->where('provider', 'patreon')->count() <= 0)
+                        <a href="{{ route('register.provider', ['provider' => 'patreon', 'redirectTo' => route('profile.social')]) }}" class="btn btn-secondary">
+                            <i class="fab fa-patreon"></i>
+                            {{ trans('profile.patreon') }}
+                        </a>
+                    @else
+                        <div class="btn btn-success">
+                            <i class="fab fa-patreon"></i>
                             {{ trans('profile.connected') }}
                         </div>
                     @endif
