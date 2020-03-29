@@ -107,7 +107,6 @@ class StreamWorkflowTest extends TestCase
          $response->assertViewIs('pages.profiles.stream');
          $response->assertViewHas('record');
          $response->assertViewHas('streams');
-         $response->assertSee(route('profile.stream.create'));
          $response->assertSee('/profile/stream/edit/');
          $response->assertSee('/profile/stream/delete/');
     }
