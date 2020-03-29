@@ -10,5 +10,5 @@
 		@endif
 >
 {{--    <i class="la la-pencil-square"></i>--}}
-    {{ $title ?? 'Primary Action' }}
+    {{ $label ?? 'Primary Action' }}
 </button>

@@ -1,4 +1,4 @@
-<{{ $tag ?? 'a' }} href="{{ $href ?? '' }}" class="{{ empty($notDefaultClass) ? 'btn btn-refresh btn-lm btn-primary' : '' }} {{ $class ?? '' }}" role="button"
+<{{ $tag ?? 'a' }} href="{{ $href ?? '' }}" class="{{ empty($notDefaultClass) ? 'btn btn-primary' : '' }} {{ $class ?? '' }}" role="button"
 
 @if (!empty($data))
     @foreach ($data as $attr => $value)

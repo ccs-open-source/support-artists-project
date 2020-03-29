@@ -14,7 +14,7 @@ class Stream extends Model
      * @var array
      */
     protected $casts = [
-        'tags' => 'array',
+        'tags' => 'array'
     ];
 
     /**

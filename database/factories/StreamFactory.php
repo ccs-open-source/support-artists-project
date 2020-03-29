@@ -11,8 +11,12 @@ $factory->define(Stream::class, function (Faker $faker) {
         'artist_id' => factory(Artist::class)->create()->id,
         'title' => $faker->name,
         'isLive' => $faker->boolean(30),
+        'provider_id' => $faker->word,
+        'provider' => $faker->randomElement(['youtube', 'vimeo']),
         'tags' => $faker->words(),
         'clicks' => $faker->numberBetween(0, 500),
+        'published_at' => $faker->dateTimeBetween('-2 day', '+5 day')->format('Y-m-d H:i:s'),
+        'description' => $faker->text,
         'created_at' => $faker->boolean(30) ?  $faker->dateTimeBetween('-1 weeks') : $faker->dateTimeBetween('-3 days')
     ];
 });

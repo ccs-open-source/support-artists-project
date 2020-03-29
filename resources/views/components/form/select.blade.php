@@ -2,9 +2,9 @@
     @if(!empty($label))
     <label for="{{ $field }}">
         @if(!empty($validation) && ($validation['required'] ?? false) == true)
-            {{ ucfirst($label) }}&nbsp;<span class="required font-danger">*</span>
+            {{ $label }}&nbsp;<span class="required text-danger">*</span>
         @else
-            {{ ucfirst($label) }}
+            {{ $label }}
         @endif
     </label>
     @endif

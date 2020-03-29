@@ -31,10 +31,7 @@ class ProfileController extends Controller
         if (!empty($artist->password) && !empty($artist->repassword)) {
             $artist->password = \Hash::make($request->password);
         }
-
-
         $artist->save();
-
         return redirect()->route('profile.index');
     }
 

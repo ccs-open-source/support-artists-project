@@ -1,4 +1,5 @@
-<div
+<a
+    href="{{ $route ?? '#' }}"
     class="{{ $class ?? 'btn btn-sm btn-danger' }}"
     @if (!empty($data))
         @foreach ($data as $attr => $value)
@@ -7,4 +8,4 @@
     @endif>
     <i class="la la-trash"></i>
     {{ $label ?? trans('actions.delete') }}
-</div>
+</a>

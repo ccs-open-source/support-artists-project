@@ -1,5 +1,11 @@
 <?php
 
 return [
-    'submit' => 'Submeter'
+    'submit' => 'Submeter',
+    'actions' => 'Acções',
+    'select-one' => 'Selecione um',
+    'save' => 'Guardar',
+    'cancel' => 'Cancelar',
+    'edit' => 'Editar',
+    'delete' => 'Apagar',
 ];

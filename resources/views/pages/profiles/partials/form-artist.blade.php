@@ -76,7 +76,7 @@
 
     <div class="row mb-5">
         <div class="col col-12 col-md-4">
-            @btnPrimary(['title' => trans('actions.submit')])
+            @btnPrimary(['label' => trans('actions.submit')])
         </div>
     </div>
 </form>

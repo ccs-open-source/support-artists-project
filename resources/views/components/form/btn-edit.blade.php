@@ -1,6 +1,6 @@
 <a href="{{ $route ?? '#' }}"
     {{ !empty($target) ? 'target=' . $target : ''}}
-    class="{{ $class ?? 'btn btn-sm btn-outline-primary' }}"
+    class="{{ $class ?? 'btn btn-sm btn-primary' }}"
    @if (!empty($data))
        @foreach ($data as $attr => $value)
        {!! 'data-' . $attr . '="' . $value . '" ' !!}

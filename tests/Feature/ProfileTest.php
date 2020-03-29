@@ -24,6 +24,7 @@ class ProfileTest extends TestCase
         $response->assertSee($artist->realName);
         $response->assertSee(route('profile.index'));
         $response->assertSee(route('profile.social'));
+        $response->assertSee(route('profile.stream'));
     }
 
     /** @test */

@@ -19,8 +19,12 @@ class CreateStreamTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->tinyInteger('isLive')->default(0);
+            $table->string('provider_id', 255);
+            $table->enum('provider', ['youtube', 'vimeo']);
             $table->string('tags')->nullable();
             $table->integer('clicks')->unsigned()->default(0);
+            $table->text('description')->nullable();
+            $table->dateTime('published_at')->nullable();
             $table->dateTime('cancel_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -10,7 +10,7 @@
         <a href="{{ route('profile.index') }}" class="list-group-item list-group-item-action @inUrl('profile/general') active @endinUrl">
             {{ trans('profile.menu-general') }}
         </a>
-        <a href="#" class="list-group-item list-group-item-action  @inUrl('profile/stream') active @endinUrl">
+        <a href="{{ route('profile.stream') }}" class="list-group-item list-group-item-action  @inUrl('profile/stream') active @endinUrl">
             {{ trans('profile.menu-stream') }}
         </a>
         <a href="{{ route('profile.social') }}" class="list-group-item list-group-item-action @inUrl('profile/social') active @endinUrl">
